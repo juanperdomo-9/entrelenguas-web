@@ -10,13 +10,17 @@ def lista_bebidas(request):
     bebidas = Bebida.objects.all()
     carrito = request.session.get('carrito', {})
 
+    cantidad_carrito = sum(carrito.values())
+
     return render(request, 'tienda/lista.html', {
         'bebidas': bebidas,
-        'carrito': carrito
+        'carrito': carrito,
+        'cantidad_carrito': cantidad_carrito
     })
 
-def agregar_al_carrito(request, bebida_id):
+from django.http import JsonResponse
 
+def agregar_al_carrito(request, bebida_id):
     carrito = request.session.get('carrito', {})
 
     if str(bebida_id) in carrito:
@@ -26,12 +30,9 @@ def agregar_al_carrito(request, bebida_id):
 
     request.session['carrito'] = carrito
 
-    total_items = sum(carrito.values())
+    cantidad = sum(carrito.values())
 
-    return JsonResponse({
-        "status": "ok",
-        "total_items": total_items
-    })
+    return JsonResponse({"cantidad_carrito": cantidad})
 
 def ver_carrito(request):
     carrito = request.session.get('carrito', {})

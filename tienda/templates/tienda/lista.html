@@ -114,7 +114,7 @@ color:#a38f75;
 <a class="navbar-brand" href="#">ENTRE LENGUAS</a>
 
 <a href="{% url 'ver_carrito' %}" class="btn btn-mezcal">
-🛒 Carrito (<span id="contador-carrito">0</span>)
+🛒 Carrito (<span id="contador-carrito">{{ cantidad_carrito }}</span>)
 </a>
 
 </div>
@@ -236,7 +236,7 @@ headers:{
 
 .then(data=>{
 
-document.getElementById("contador-carrito").innerText=data.total_items;
+document.getElementById("contador-carrito").innerText=data.cantidad_carrito;
 
 const toast=document.getElementById("toast-carrito");
 
