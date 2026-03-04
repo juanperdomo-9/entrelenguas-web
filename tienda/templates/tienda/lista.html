@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Entre Lenguas Mezcal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+background-color:#1c1a18;
+color:#e8d8c3;
+font-family:'Playfair Display',serif;
+}
+
+.navbar-custom{
+background-color:rgba(28,26,24,0.95);
+}
+
+.hero{
+height:100vh;
+background:
+linear-gradient(rgba(28,26,24,0.8),rgba(28,26,24,0.95)),
+url("https://images.unsplash.com/photo-1582571352039-8a0f7b3a9d68?auto=format&fit=crop&w=1600&q=80");
+background-size:cover;
+background-position:center;
+}
+
+.hero-title{
+font-size:4.5rem;
+color:#c46a2d;
+font-weight:700;
+letter-spacing:6px;
+}
+
+.hero-subtitle{
+font-size:1.2rem;
+color:#d8c3a5;
+margin-top:20px;
+}
+
+.btn-mezcal{
+background-color:#8c2f1b;
+color:white;
+border-radius:30px;
+padding:10px 30px;
+transition:all 0.3s ease;
+border:none;
+}
+
+.btn-mezcal:hover{
+background-color:#c46a2d;
+transform:translateY(-2px);
+}
+
+.section-title{
+color:#c46a2d;
+font-weight:700;
+letter-spacing:3px;
+margin-bottom:60px;
+}
+
+.card-custom{
+background-color:#2a2422;
+border:none;
+border-radius:15px;
+overflow:hidden;
+transition:all 0.3s ease;
+}
+
+.card-custom:hover{
+transform:translateY(-8px);
+}
+
+.card-title{
+color:#c46a2d;
+font-weight:600;
+margin-top:15px;
+}
+
+.card-text{
+color:#cbb89d;
+font-size:0.95rem;
+min-height:60px;
+}
+
+.precio{
+color:#ffffff;
+font-size:1.4rem;
+font-weight:700;
+margin-top:10px;
+}
+
+footer{
+background-color:#111;
+padding:40px;
+text-align:center;
+margin-top:80px;
+font-size:0.9rem;
+color:#a38f75;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+<div class="container">
+
+<a class="navbar-brand" href="#">ENTRE LENGUAS</a>
+
+<a href="{% url 'ver_carrito' %}" class="btn btn-mezcal">
+🛒 Carrito (<span id="contador-carrito">0</span>)
+</a>
+
+</div>
+</nav>
+
+
+<section class="hero d-flex align-items-center text-center">
+<div class="container">
+<h1 class="hero-title">MEZCAL</h1>
+<p class="hero-subtitle">Artesanía líquida desde el corazón de México</p>
+<a href="#productos" class="btn btn-mezcal mt-4">Explorar Colección</a>
+</div>
+</section>
+
+<div class="container py-5" id="productos">
+
+<div class="text-center">
+<h2 class="section-title">NUESTRA COLECCIÓN</h2>
+</div>
+
+<div class="row">
+
+{% for bebida in bebidas %}
+
+<div class="col-md-4 mb-5">
+
+<div class="card card-custom shadow">
+
+{% if bebida.imagen %}
+<img src="{{ bebida.imagen.url }}" class="card-img-top" style="height:350px; object-fit:cover;">
+{% endif %}
+
+<div class="card-body text-center">
+
+<h5 class="card-title">{{ bebida.nombre }}</h5>
+
+<p class="card-text">{{ bebida.descripcion }}</p>
+
+<p class="precio">$ {{ bebida.precio }}</p>
+
+<button
+class="btn btn-mezcal w-100 mt-3 agregar-carrito"
+data-id="{{ bebida.id }}"
+>
+Agregar al carrito
+</button>
+
+</div>
+</div>
+</div>
+
+{% endfor %}
+
+</div>
+</div>
+
+
+<footer>
+© 2026 Entre Lenguas Mezcal · Hecho con pasión y tradición
+</footer>
+
+
+<div id="toast-carrito"
+style="
+position:fixed;
+bottom:30px;
+right:30px;
+background:#c46a2d;
+color:white;
+padding:15px 25px;
+border-radius:8px;
+display:none;
+font-weight:bold;
+z-index:9999;
+">
+✔ Producto agregado al carrito
+</div>
+
+
+<script>
+
+function getCookie(name){
+let cookieValue=null;
+
+if(document.cookie && document.cookie!==''){
+const cookies=document.cookie.split(';');
+
+for(let i=0;i<cookies.length;i++){
+const cookie=cookies[i].trim();
+
+if(cookie.substring(0,name.length+1)===name+'='){
+cookieValue=decodeURIComponent(cookie.substring(name.length+1));
+break;
+}
+}
+}
+
+return cookieValue;
+}
+
+const csrftoken=getCookie('csrftoken');
+
+
+document.querySelectorAll(".agregar-carrito").forEach(boton=>{
+
+boton.addEventListener("click",function(){
+
+const bebidaId=this.dataset.id;
+
+fetch(`/agregar/${bebidaId}/`,{
+method:"POST",
+headers:{
+"X-CSRFToken":csrftoken,
+"Content-Type":"application/json"
+}
+})
+
+.then(response=>response.json())
+
+.then(data=>{
+
+document.getElementById("contador-carrito").innerText=data.total_items;
+
+const toast=document.getElementById("toast-carrito");
+
+toast.style.display="block";
+
+setTimeout(()=>{
+toast.style.display="none";
+},2000);
+
+});
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
