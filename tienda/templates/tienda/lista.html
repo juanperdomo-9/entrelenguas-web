@@ -94,6 +94,24 @@ font-weight:700;
 margin-top:10px;
 }
 
+/* GALERIA */
+
+.galeria .col-md-4{
+display:flex;
+}
+
+.galeria img{
+width:100%;
+height:350px;
+object-fit:cover;
+border-radius:10px;
+transition:transform 0.3s ease;
+}
+
+.galeria img:hover{
+transform:scale(1.05);
+}
+
 footer{
 background-color:#111;
 padding:40px;
@@ -128,6 +146,7 @@ color:#a38f75;
 <a href="#productos" class="btn btn-mezcal mt-4">Explorar Colección</a>
 </div>
 </section>
+
 
 <div class="container py-5" id="productos">
 
@@ -170,6 +189,34 @@ Agregar al carrito
 
 </div>
 </div>
+
+
+<!-- GALERIA MEZCAL -->
+
+<section class="container py-5 galeria">
+
+<div class="text-center">
+<h2 class="section-title">EL ORIGEN DEL MEZCAL</h2>
+<p style="color:#cbb89d">Una tradición artesanal nacida en la tierra y el fuego.</p>
+</div>
+
+<div class="row mt-5">
+
+<div class="col-md-4 mb-4">
+<img src="/media/bebidas/mezcal.png" class="img-fluid">
+</div>
+
+<div class="col-md-4 mb-4">
+<img src="/media/bebidas/image.png" class="img-fluid">
+</div>
+
+<div class="col-md-4 mb-4">
+<img src="/media/bebidas/image2.png" class="img-fluid">
+</div>
+
+</div>
+
+</section>
 
 
 <footer>
