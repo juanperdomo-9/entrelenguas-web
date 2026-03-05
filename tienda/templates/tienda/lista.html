@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -112,6 +113,18 @@ transition:transform 0.3s ease;
 transform:scale(1.05);
 }
 
+/* BANNER HORIZONTAL */
+
+.banner-mezcal{
+width:100%;
+height:350px;
+object-fit:cover;
+border-radius:12px;
+margin-top:40px;
+}
+
+/* FOOTER */
+
 footer{
 background-color:#111;
 padding:40px;
@@ -122,6 +135,7 @@ color:#a38f75;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -138,7 +152,6 @@ color:#a38f75;
 </div>
 </nav>
 
-
 <section class="hero d-flex align-items-center text-center">
 <div class="container">
 <h1 class="hero-title">MEZCAL</h1>
@@ -146,7 +159,6 @@ color:#a38f75;
 <a href="#productos" class="btn btn-mezcal mt-4">Explorar Colección</a>
 </div>
 </section>
-
 
 <div class="container py-5" id="productos">
 
@@ -162,8 +174,7 @@ color:#a38f75;
 
 <div class="card card-custom shadow">
 
-{% if bebida.imagen %}
-<img src="{{ bebida.imagen.url }}" class="card-img-top" style="height:350px; object-fit:cover;">
+{% if bebida.imagen %} <img src="{{ bebida.imagen.url }}" class="card-img-top" style="height:350px; object-fit:cover;">
 {% endif %}
 
 <div class="card-body text-center">
@@ -177,9 +188,10 @@ color:#a38f75;
 <button
 class="btn btn-mezcal w-100 mt-3 agregar-carrito"
 data-id="{{ bebida.id }}"
+
 >
-Agregar al carrito
-</button>
+
+Agregar al carrito </button>
 
 </div>
 </div>
@@ -189,7 +201,6 @@ Agregar al carrito
 
 </div>
 </div>
-
 
 <!-- GALERIA MEZCAL -->
 
@@ -207,7 +218,7 @@ Agregar al carrito
 </div>
 
 <div class="col-md-4 mb-4">
-<img src="/media/bebidas/image.png" class="img-fluid">
+<img src="/media/bebidas/image3.png" class="img-fluid">
 </div>
 
 <div class="col-md-4 mb-4">
@@ -218,11 +229,25 @@ Agregar al carrito
 
 </section>
 
+<!-- BANNER HORIZONTAL -->
+
+<div class="container pb-5">
+
+<div class="row">
+
+<div class="col-12">
+
+<img src="/media/bebidas/horizontal.png" class="img-fluid banner-mezcal">
+
+</div>
+
+</div>
+
+</div>
 
 <footer>
 © 2026 Entre Lenguas Mezcal · Hecho con pasión y tradición
 </footer>
-
 
 <div id="toast-carrito"
 style="
@@ -239,7 +264,6 @@ z-index:9999;
 ">
 ✔ Producto agregado al carrito
 </div>
-
 
 <script>
 
