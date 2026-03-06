@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 
 class Comida(models.Model):
     nombre = models.CharField(max_length=100)
@@ -12,6 +10,7 @@ class Comida(models.Model):
 
     def __str__(self):
         return self.nombre
+
 
 class Pedido(models.Model):
 
@@ -28,16 +27,25 @@ class Pedido(models.Model):
     enviado = models.BooleanField(default=False)
 
     tipo_pedido = models.CharField(
-    max_length=20,
-    choices=[
-        ("delivery","Delivery"),
-        ("retiro","Retiro en el local")
-    ]
-)
+        max_length=20,
+        choices=[
+            ("delivery", "Delivery"),
+            ("retiro", "Retiro en el local")
+        ]
+    )
+
+    forma_pago = models.CharField(
+        max_length=20,
+        choices=[
+            ("efectivo", "Efectivo"),
+            ("mp", "Mercado Pago")
+        ],
+        default="efectivo"
+    )
 
     def __str__(self):
         return f"Pedido {self.id} - {self.nombre_cliente}"
-    
+
 
 class ItemPedido(models.Model):
 
@@ -48,7 +56,8 @@ class ItemPedido(models.Model):
     precio = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"{self.bebida.nombre} x{self.cantidad}"
+        return f"{self.comida.nombre} x{self.cantidad}"
+
 
 class Reserva(models.Model):
 

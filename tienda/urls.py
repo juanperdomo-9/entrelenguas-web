@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import lista_comidas, agregar_al_carrito, ver_carrito, eliminar_del_carrito, restar_del_carrito, sumar_del_carrito, checkout, crear_reserva, reserva_confirmada, compra_exitosa
+from .views import lista_comidas, agregar_al_carrito, ver_carrito, eliminar_del_carrito, restar_del_carrito, sumar_del_carrito, checkout, crear_reserva, reserva_confirmada, compra_exitosa, pagar_con_mercadopago
 
 urlpatterns = [
     path('', lista_comidas, name='lista_comidas'),
@@ -12,4 +12,5 @@ urlpatterns = [
     path('reservar/', crear_reserva, name='crear_reserva'),
     path('reserva-confirmada/', reserva_confirmada, name='reserva_confirmada'),
     path('compra-exitosa/', compra_exitosa, name='compra_exitosa'),
+    path('pagar/<int:pedido_id>/', pagar_con_mercadopago, name='pagar_con_mercadopago'),
 ]

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-8zdmx957^mu+7f$uz!lwrysgqah(v2zkomwzsl-58fivxvtvrh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -116,6 +116,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 import os
 
@@ -130,3 +131,6 @@ EMAIL_HOST_USER = "clientesportsidepm@gmail.com"
 EMAIL_HOST_PASSWORD = "lwwxteqnqxctwkfs"
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+MERCADOPAGO_PUBLIC_KEY = "TU_PUBLIC_KEY"
+MERCADOPAGO_ACCESS_TOKEN = "TU_ACCESS_TOKEN"
