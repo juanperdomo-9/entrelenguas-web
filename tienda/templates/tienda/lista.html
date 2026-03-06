@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Entre Lenguas Mezcal</title>
+<title>Entre Lenguas Restaurante</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
@@ -25,7 +24,7 @@ background-color:rgba(28,26,24,0.95);
 height:100vh;
 background:
 linear-gradient(rgba(28,26,24,0.8),rgba(28,26,24,0.95)),
-url("https://images.unsplash.com/photo-1582571352039-8a0f7b3a9d68?auto=format&fit=crop&w=1600&q=80");
+url("https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1600&q=80");
 background-size:cover;
 background-position:center;
 }
@@ -95,35 +94,12 @@ font-weight:700;
 margin-top:10px;
 }
 
-/* GALERIA */
-
-.galeria .col-md-4{
-display:flex;
-}
-
 .galeria img{
 width:100%;
 height:350px;
 object-fit:cover;
 border-radius:10px;
-transition:transform 0.3s ease;
 }
-
-.galeria img:hover{
-transform:scale(1.05);
-}
-
-/* BANNER HORIZONTAL */
-
-.banner-mezcal{
-width:100%;
-height:350px;
-object-fit:cover;
-border-radius:12px;
-margin-top:40px;
-}
-
-/* FOOTER */
 
 footer{
 background-color:#111;
@@ -135,7 +111,6 @@ color:#a38f75;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -145,53 +120,68 @@ color:#a38f75;
 
 <a class="navbar-brand" href="#">ENTRE LENGUAS</a>
 
+<div>
+
+<a href="#reservas" class="btn btn-mezcal me-2">
+Reservar
+</a>
+
 <a href="{% url 'ver_carrito' %}" class="btn btn-mezcal">
 🛒 Carrito (<span id="contador-carrito">{{ cantidad_carrito }}</span>)
 </a>
 
 </div>
+
+</div>
 </nav>
+
+<!-- HERO -->
 
 <section class="hero d-flex align-items-center text-center">
 <div class="container">
-<h1 class="hero-title">MEZCAL</h1>
-<p class="hero-subtitle">Artesanía líquida desde el corazón de México</p>
-<a href="#productos" class="btn btn-mezcal mt-4">Explorar Colección</a>
+<h1 class="hero-title">COCINA MEXICANA</h1>
+<p class="hero-subtitle">Sabores auténticos de México</p>
+
+<a href="#productos" class="btn btn-mezcal mt-4">
+Ver Menú
+</a>
+
 </div>
 </section>
+
+<!-- MENU -->
 
 <div class="container py-5" id="productos">
 
 <div class="text-center">
-<h2 class="section-title">NUESTRA COLECCIÓN</h2>
+<h2 class="section-title">NUESTRO MENÚ</h2>
 </div>
 
 <div class="row">
 
-{% for bebida in bebidas %}
+{% for comida in comidas %}
 
 <div class="col-md-4 mb-5">
 
 <div class="card card-custom shadow">
 
-{% if bebida.imagen %} <img src="{{ bebida.imagen.url }}" class="card-img-top" style="height:350px; object-fit:cover;">
+{% if comida.imagen %}
+<img src="{{ comida.imagen.url }}" class="card-img-top" style="height:350px; object-fit:cover;">
 {% endif %}
 
 <div class="card-body text-center">
 
-<h5 class="card-title">{{ bebida.nombre }}</h5>
+<h5 class="card-title">{{ comida.nombre }}</h5>
 
-<p class="card-text">{{ bebida.descripcion }}</p>
+<p class="card-text">{{ comida.descripcion }}</p>
 
-<p class="precio">$ {{ bebida.precio }}</p>
+<p class="precio">$ {{ comida.precio }}</p>
 
 <button
 class="btn btn-mezcal w-100 mt-3 agregar-carrito"
-data-id="{{ bebida.id }}"
-
->
-
-Agregar al carrito </button>
+data-id="{{ comida.id }}">
+Agregar al pedido
+</button>
 
 </div>
 </div>
@@ -202,52 +192,143 @@ Agregar al carrito </button>
 </div>
 </div>
 
-<!-- GALERIA MEZCAL -->
+<!-- GALERIA -->
 
 <section class="container py-5 galeria">
 
 <div class="text-center">
-<h2 class="section-title">EL ORIGEN DEL MEZCAL</h2>
-<p style="color:#cbb89d">Una tradición artesanal nacida en la tierra y el fuego.</p>
+<h2 class="section-title">NUESTRA COCINA</h2>
+<p style="color:#cbb89d">Ingredientes frescos y tradición mexicana.</p>
 </div>
 
 <div class="row mt-5">
 
 <div class="col-md-4 mb-4">
-<img src="/media/bebidas/mezcal.png" class="img-fluid">
+<img src="https://images.unsplash.com/photo-1552332386-f8dd00dc2f85" class="img-fluid">
 </div>
 
 <div class="col-md-4 mb-4">
-<img src="/media/bebidas/image3.png" class="img-fluid">
+<img src="https://images.unsplash.com/photo-1600891964092-4316c288032e" class="img-fluid">
 </div>
 
 <div class="col-md-4 mb-4">
-<img src="/media/bebidas/image2.png" class="img-fluid">
+<img src="https://images.unsplash.com/photo-1600891965059-3f7e8c0a6c54" class="img-fluid">
 </div>
 
 </div>
 
 </section>
 
-<!-- BANNER HORIZONTAL -->
+<!-- RESERVAS -->
 
-<div class="container pb-5">
+<section id="reservas" class="container py-5">
 
-<div class="row">
+<div class="text-center">
+<h2 class="section-title">RESERVAR MESA</h2>
+<p style="color:#cbb89d">Reservá tu mesa en segundos</p>
+</div>
 
-<div class="col-12">
+<div class="row justify-content-center mt-4">
 
-<img src="/media/bebidas/horizontal.png" class="img-fluid banner-mezcal">
+<div class="col-md-5">
+
+<form method="POST" action="{% url 'crear_reserva' %}">
+
+{% csrf_token %}
+
+<div class="mb-3">
+<input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
+</div>
+
+<div class="mb-3">
+<input type="tel" name="telefono" class="form-control" placeholder="Teléfono" required>
+</div>
+
+<div class="mb-3">
+<input type="number" name="personas" class="form-control" placeholder="Personas" required>
+</div>
+
+<div class="mb-3">
+<input type="date" name="fecha" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<input type="time" name="hora" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<input type="email" name="email" class="form-control" placeholder="Email" required>
+</div>
+
+<button class="btn btn-mezcal w-100">
+Reservar mesa
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- MAPA -->
+
+<section class="container-fluid py-5">
+
+<div class="text-center mb-4">
+<h2 class="section-title">UBICACIÓN</h2>
+<p style="color:#cbb89d">Encontranos en el corazón de la ciudad</p>
+</div>
+
+<div class="row justify-content-center">
+
+<div class="col-lg-10">
+
+<iframe
+src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3728.5542037511714!2d-86.87863972416203!3d20.84970079390344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f4e8995acdfc501%3A0x43bc4c26527c6049!2sPortside%20PM!5e0!3m2!1ses!2sar!4v1772817132935!5m2!1ses!2sar" 
+width="100%"
+height="450"
+style="border:0;border-radius:12px;"
+loading="lazy">
+</iframe>
+
+<div class="text-center mt-4">
+
+<a 
+href="https://maps.google.com/?q=Ciudad+de+Mexico" 
+target="_blank"
+class="btn btn-mezcal">
+
+📍 Abrir en Google Maps
+
+</a>
 
 </div>
 
 </div>
 
 </div>
+
+</section>
+
+<!-- REDES -->
+
+<section class="container text-center pb-5">
+
+<h2 class="section-title">SÍGUENOS</h2>
+
+<a href="#" class="btn btn-mezcal m-2">Instagram</a>
+<a href="#" class="btn btn-mezcal m-2">Facebook</a>
+<a href="#" class="btn btn-mezcal m-2">WhatsApp</a>
+
+</section>
 
 <footer>
-© 2026 Entre Lenguas Mezcal · Hecho con pasión y tradición
+© 2026 Entre Lenguas Restaurante · Cocina mexicana auténtica
 </footer>
+
+<!-- TOAST -->
 
 <div id="toast-carrito"
 style="
@@ -262,7 +343,7 @@ display:none;
 font-weight:bold;
 z-index:9999;
 ">
-✔ Producto agregado al carrito
+✔ Producto agregado al pedido
 </div>
 
 <script>
@@ -288,14 +369,13 @@ return cookieValue;
 
 const csrftoken=getCookie('csrftoken');
 
-
 document.querySelectorAll(".agregar-carrito").forEach(boton=>{
 
 boton.addEventListener("click",function(){
 
-const bebidaId=this.dataset.id;
+const comidaId=this.dataset.id;
 
-fetch(`/agregar/${bebidaId}/`,{
+fetch(`/agregar/${comidaId}/`,{
 method:"POST",
 headers:{
 "X-CSRFToken":csrftoken,

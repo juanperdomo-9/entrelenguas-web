@@ -100,7 +100,7 @@ border-radius:6px;
 🛒 Tu Carrito 
 </h1>
 
-{% if bebidas %}
+{% if comidas %}
 
 <div class="table-responsive">
 
@@ -117,7 +117,7 @@ border-radius:6px;
 
 <tbody>
 
-{% for item in bebidas %}
+{% for item in comidas %}
 
 <tr>
 
@@ -125,10 +125,10 @@ border-radius:6px;
 
 <div class="producto-info">
 
-{% if item.bebida.imagen %} <img src="{{ item.bebida.imagen.url }}" class="producto-img">
+{% if item.comida.imagen %} <img src="{{ item.comida.imagen.url }}" class="producto-img">
 {% endif %}
 
-<strong>{{ item.bebida.nombre }}</strong>
+<strong>{{ item.comida.nombre }}</strong>
 
 </div>
 
@@ -138,11 +138,11 @@ border-radius:6px;
 
 <div class="d-flex align-items-center gap-2">
 
-<a href="{% url 'restar_del_carrito' item.bebida.id %}" class="btn btn-sm btn-outline-light">-</a>
+<a href="{% url 'restar_del_carrito' item.comida.id %}" class="btn btn-sm btn-outline-light">-</a>
 
 <span>{{ item.cantidad }}</span>
 
-<a href="{% url 'sumar_del_carrito' item.bebida.id %}" class="btn btn-sm btn-outline-light">+</a>
+<a href="{% url 'sumar_del_carrito' item.comida.id %}" class="btn btn-sm btn-outline-light">+</a>
 
 </div>
 
@@ -154,7 +154,7 @@ $ {{ item.subtotal }}
 
 <td>
 
-<a href="{% url 'eliminar_del_carrito' item.bebida.id %}" class="btn btn-sm btn-danger">
+<a href="{% url 'eliminar_del_carrito' item.comida.id %}" class="btn btn-sm btn-danger">
 Eliminar
 </a>
 
@@ -186,11 +186,11 @@ Total: $ {{ total }}
 
 <div class="d-flex gap-3">
 
-<a href="{% url 'lista_bebidas' %}" class="btn btn-outline-light">
+<a href="{% url 'lista_comidas' %}" class="btn btn-outline-light">
 Seguir comprando
 </a>
 
-<a href="#" class="btn btn-mezcal">
+<a href="{% url 'checkout' %}" class="btn btn-mezcal">
 Finalizar compra
 </a>
 
@@ -206,7 +206,7 @@ Finalizar compra
 Tu carrito está vacío
 </h3>
 
-<a href="{% url 'lista_bebidas' %}" class="btn btn-mezcal">
+<a href="{% url 'lista_comidas' %}" class="btn btn-mezcal">
 Explorar productos
 </a>
 
