@@ -110,6 +110,45 @@ font-size:0.9rem;
 color:#a38f75;
 }
 
+/* ============================= */
+/* RESPONSIVE PARA CELULAR */
+/* ============================= */
+
+@media (max-width:768px){
+
+.hero{
+height:80vh;
+}
+
+.hero-title{
+font-size:2.8rem;
+letter-spacing:2px;
+}
+
+.hero-subtitle{
+font-size:1rem;
+}
+
+.navbar .btn{
+padding:8px 12px;
+font-size:14px;
+margin-bottom:5px;
+}
+
+.section-title{
+font-size:1.8rem;
+}
+
+.card-text{
+min-height:auto;
+}
+
+.galeria img{
+height:250px;
+}
+
+}
+
 </style>
  
 </head>
@@ -122,6 +161,10 @@ color:#a38f75;
 <a class="navbar-brand" href="#">PORTSIDE</a>
 
 <div>
+
+<a href="#redes" class="btn btn-mezcal me-2">
+💬 Redes
+</a>
 
 <a href="#reservas" class="btn btn-mezcal me-2">
 📅 Reservar
@@ -162,7 +205,7 @@ color:#a38f75;
 
 {% for comida in comidas %}
 
-<div class="col-md-4 mb-5">
+<div class="col-lg-4 col-md-6 col-12 mb-5">
 
 <div class="card card-custom shadow">
 
@@ -315,9 +358,9 @@ class="btn btn-mezcal">
 
 <!-- REDES -->
 
-<section class="container text-center pb-5">
+<section id="redes" class="container text-center pb-5">
 
-<h2 class="section-title">SÍGUENOS/CONTÁCTENOS</h2>
+<h2 class="section-title">NUESTRAS REDES</h2>
 
 <a href="https://www.instagram.com/portsidepm?igsh=MTBsYWZwZWZwZm1mcA==" target="_blank" class="btn btn-mezcal m-2">
 📷 Instagram
@@ -327,9 +370,10 @@ class="btn btn-mezcal">
 📘 Facebook
 </a>
 
-<a href="" target="_blank" class="btn btn-mezcal m-2">
+<a href="https://wa.me/52984358308" target="_blank" class="btn btn-mezcal m-2">
 💬 WhatsApp
 </a>
+
 </section>
 
 <footer>

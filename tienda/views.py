@@ -289,7 +289,7 @@ def pagar_con_mercadopago(request, pedido_id):
             "failure": "http://127.0.0.1:8000/",
             "pending": "http://127.0.0.1:8000/"
         },
-        "auto_return": "approved"
+         "auto_return": "approved",
     }
 
     preference_response = sdk.preference().create(preference_data)
