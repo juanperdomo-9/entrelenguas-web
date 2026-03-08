@@ -2,7 +2,7 @@ from pathlib import Path
 import os
 import cloudinary
 import dj_database_url
-from django.contrib.auth import get_user_model
+
 
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -156,14 +156,3 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 MERCADOPAGO_PUBLIC_KEY = os.environ.get("MERCADOPAGO_PUBLIC_KEY")
 MERCADOPAGO_ACCESS_TOKEN = os.environ.get("MERCADOPAGO_ACCESS_TOKEN")
 
-User = get_user_model()
-
-try:
-    if not User.objects.filter(username="admin").exists():
-        User.objects.create_superuser(
-            "admin",
-            "clientesportsidepm@gmail.com",
-            "DiegoMaradona10"
-        )
-except:
-    pass
