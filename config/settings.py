@@ -32,8 +32,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tienda',
-    'cloudinary',
-    'cloudinary_storage',
+    #'cloudinary',
+    #'cloudinary_storage',
 ]
 
 
@@ -151,10 +151,10 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 MERCADOPAGO_PUBLIC_KEY = os.environ.get("MERCADOPAGO_PUBLIC_KEY")
 MERCADOPAGO_ACCESS_TOKEN = os.environ.get("MERCADOPAGO_ACCESS_TOKEN")
 
-cloudinary.config(
-    cloud_name="dbqpfp5oa",
-    api_key="466241412272823",
-    api_secret="4XKcnhyDuV6QXNiWoO1Z0Epz8Lg"
+#cloudinary.config(
+ #   cloud_name="dbqpfp5oa",
+  #  api_key="466241412272823",
+   # api_secret="4XKcnhyDuV6QXNiWoO1Z0Epz8Lg"
 )
 
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+#DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
