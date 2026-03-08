@@ -1,9 +1,6 @@
 from pathlib import Path
 import os
-
 import cloudinary
-import cloudinary.uploader
-import cloudinary.api
 
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,9 +28,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tienda',
-    'cloudinary',
+
     'cloudinary_storage',
+    'cloudinary',
+
+    'tienda',
 ]
 
 
@@ -127,10 +126,17 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
-# MEDIA FILES
+# MEDIA (Cloudinary)
+
+cloudinary.config(
+    cloud_name="dbqpfp5oa",
+    api_key="466241412272823",
+    api_secret="4XKcnhyDuV6QXNiWoO1Z0Epz8Lg"
+)
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # EMAIL CONFIG
@@ -150,12 +156,3 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 MERCADOPAGO_PUBLIC_KEY = os.environ.get("MERCADOPAGO_PUBLIC_KEY")
 MERCADOPAGO_ACCESS_TOKEN = os.environ.get("MERCADOPAGO_ACCESS_TOKEN")
-
-cloudinary.config(
-    cloud_name="dbqpfp5oa",
-    api_key="466241412272823",
-    api_secret="4XKcnhyDuV6QXNiWoO1Z0Epz8Lg"
-
-)
-
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
