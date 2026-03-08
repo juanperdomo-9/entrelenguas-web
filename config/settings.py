@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import cloudinary
+import dj_database_url
 
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,13 +78,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # DATABASE
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
+    )
 }
-
-
 # PASSWORD VALIDATION
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -115,7 +113,7 @@ USE_TZ = True
 
 # STATIC FILES
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",

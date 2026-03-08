@@ -64,6 +64,7 @@ class Reserva(models.Model):
     nombre = models.CharField(max_length=200)
     telefono = models.CharField(max_length=50)
     personas = models.IntegerField()
+    email = models.EmailField()
 
     fecha = models.DateField()
     hora = models.TimeField()
