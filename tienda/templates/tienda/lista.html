@@ -24,7 +24,7 @@ background-color:rgba(28,26,24,0.95);
 height:100vh;
 background:
 linear-gradient(rgba(28,26,24,0.8),rgba(28,26,24,0.95)),
-url("media/bebidas/fondoR.png");
+url("/static/images/fondoR.png");
 background-size:cover;
 background-position:center;
 }
@@ -248,15 +248,15 @@ data-id="{{ comida.id }}">
 <div class="row mt-5">
 
 <div class="col-md-4 mb-4">
-<img src="media/bebidas/fondo1.png" class="img-fluid">
+<img src="/static/images/fondo1.png" class="img-fluid">
 </div>
 
 <div class="col-md-4 mb-4">
-<img src="media/bebidas/fondo2.png" class="img-fluid">
+<img src="/static/images/fondo2.png" class="img-fluid">
 </div>
 
 <div class="col-md-4 mb-4">
-<img src="media/bebidas/fondo3.png" class="img-fluid">
+<img src="/static/images/fondo3.png" class="img-fluid">
 </div>
 
 </div>
@@ -379,83 +379,6 @@ class="btn btn-mezcal">
 <footer>
 © 2026 Entre Lenguas Restaurante · Cocina mexicana auténtica
 </footer>
-
-<!-- TOAST -->
-
-<div id="toast-carrito"
-style="
-position:fixed;
-bottom:30px;
-right:30px;
-background:#c46a2d;
-color:white;
-padding:15px 25px;
-border-radius:8px;
-display:none;
-font-weight:bold;
-z-index:9999;
-">
-✔ Producto agregado al pedido
-</div>
-
-<script>
-
-function getCookie(name){
-let cookieValue=null;
-
-if(document.cookie && document.cookie!==''){
-const cookies=document.cookie.split(';');
-
-for(let i=0;i<cookies.length;i++){
-const cookie=cookies[i].trim();
-
-if(cookie.substring(0,name.length+1)===name+'='){
-cookieValue=decodeURIComponent(cookie.substring(name.length+1));
-break;
-}
-}
-}
-
-return cookieValue;
-}
-
-const csrftoken=getCookie('csrftoken');
-
-document.querySelectorAll(".agregar-carrito").forEach(boton=>{
-
-boton.addEventListener("click",function(){
-
-const comidaId=this.dataset.id;
-
-fetch(`/agregar/${comidaId}/`,{
-method:"POST",
-headers:{
-"X-CSRFToken":csrftoken,
-"Content-Type":"application/json"
-}
-})
-
-.then(response=>response.json())
-
-.then(data=>{
-
-document.getElementById("contador-carrito").innerText=data.cantidad_carrito;
-
-const toast=document.getElementById("toast-carrito");
-
-toast.style.display="block";
-
-setTimeout(()=>{
-toast.style.display="none";
-},2000);
-
-});
-
-});
-
-});
-
-</script>
 
 </body>
 </html>
