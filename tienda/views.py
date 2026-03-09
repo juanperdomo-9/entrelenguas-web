@@ -155,7 +155,7 @@ def checkout(request):
 
              threading.Thread(target=enviar_email_pedido, args=(pedido,)).start()
 
-            return redirect("compra_exitosa")
+             return redirect("compra_exitosa")
 
         # SI ES MERCADO PAGO
         return redirect("pagar_con_mercadopago", pedido_id=pedido.id)
@@ -254,7 +254,7 @@ Hora: {hora}
                 [email_cliente],
             ),
         ).start()
-        
+
         return redirect("reserva_confirmada")
 
 
