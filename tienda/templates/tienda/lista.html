@@ -113,24 +113,39 @@ font-size:0.9rem;
 color:#a38f75;
 }
 
-/* ============================= */
-/* RESPONSIVE PARA CELULAR */
-/* ============================= */
+/* Toast */
+
+.toast-carrito{
+position:fixed;
+bottom:30px;
+right:30px;
+background:#8c2f1b;
+color:white;
+padding:15px 25px;
+border-radius:8px;
+opacity:0;
+transform:translateY(20px);
+transition:0.3s;
+z-index:9999;
+}
+
+.toast-carrito.show{
+opacity:1;
+transform:translateY(0);
+}
+
+/* RESPONSIVE */
 
 @media (max-width:768px){
 
-.hero{
-height:80vh;
-}
+.hero{ height:80vh; }
 
 .hero-title{
 font-size:2.8rem;
 letter-spacing:2px;
 }
 
-.hero-subtitle{
-font-size:1rem;
-}
+.hero-subtitle{ font-size:1rem; }
 
 .navbar .btn{
 padding:8px 12px;
@@ -138,22 +153,15 @@ font-size:14px;
 margin-bottom:5px;
 }
 
-.section-title{
-font-size:1.8rem;
-}
+.section-title{ font-size:1.8rem; }
 
-.card-text{
-min-height:auto;
-}
+.card-text{ min-height:auto; }
 
-.galeria img{
-height:250px;
-}
+.galeria img{ height:250px; }
 
 }
 
 </style>
- 
 </head>
 
 <body>
@@ -165,27 +173,22 @@ height:250px;
 
 <div>
 
-<a href="#redes" class="btn btn-mezcal me-2">
-💬 Redes
-</a>
+<a href="#redes" class="btn btn-mezcal me-2">💬 Redes</a>
 
-<a href="#reservas" class="btn btn-mezcal me-2">
-📅 Reservar
-</a>
+<a href="#reservas" class="btn btn-mezcal me-2">📅 Reservar</a>
 
 <a href="{% url 'ver_carrito' %}" class="btn btn-mezcal">
 🛒 Pedido (<span id="contador-carrito">{{ cantidad_carrito }}</span>)
 </a>
 
 </div>
-
 </div>
 </nav>
 
-<!-- HERO -->
 
 <section class="hero d-flex align-items-center text-center">
 <div class="container">
+
 <h1 class="hero-title">PORTSIDE</h1>
 <p class="hero-subtitle">Puerto Morelos, Quintana Roo</p>
 
@@ -196,7 +199,6 @@ height:250px;
 </div>
 </section>
 
-<!-- MENU -->
 
 <div class="container py-5" id="productos">
 
@@ -238,6 +240,74 @@ data-id="{{ comida.id }}">
 
 </div>
 </div>
+
+
+<!-- TOAST -->
+
+<div id="toast-carrito" class="toast-carrito">
+Producto agregado al pedido
+</div>
+
+
+<script>
+
+function getCookie(name){
+let cookieValue=null;
+
+if(document.cookie && document.cookie!==''){
+const cookies=document.cookie.split(';');
+
+for(let i=0;i<cookies.length;i++){
+const cookie=cookies[i].trim();
+
+if(cookie.substring(0,name.length+1)===name+'='){
+cookieValue=decodeURIComponent(cookie.substring(name.length+1));
+break;
+}
+}
+}
+
+return cookieValue;
+}
+
+const csrftoken=getCookie('csrftoken');
+
+
+document.querySelectorAll(".agregar-carrito").forEach(boton=>{
+
+boton.addEventListener("click",function(){
+
+const comidaId=this.dataset.id;
+
+fetch(`/agregar/${comidaId}/`,{
+method:"POST",
+headers:{
+"X-CSRFToken":csrftoken,
+"Content-Type":"application/json"
+}
+})
+
+.then(response=>response.json())
+
+.then(data=>{
+
+document.getElementById("contador-carrito").innerText=data.cantidad_carrito;
+
+const toast=document.getElementById("toast-carrito");
+
+toast.classList.add("show");
+
+setTimeout(()=>{
+toast.classList.remove("show");
+},2000);
+
+});
+
+});
+
+});
+
+</script>
 
 <!-- GALERIA -->
 
@@ -369,6 +439,10 @@ loading="lazy">
 <footer>
 © 2026 Entre Lenguas Restaurante · Cocina mexicana auténtica
 </footer>
+
+</body>
+</html>
+
 
 </body>
 </html>
