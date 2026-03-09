@@ -301,12 +301,12 @@ def pagar_con_mercadopago(request, pedido_id):
 
 def test_email(request):
 
-    send_mail(
+    resultado = send_mail(
         "Test Email",
-        "Si recibiste esto, el correo funciona.",
+        "Correo de prueba desde Portside",
         settings.DEFAULT_FROM_EMAIL,
-        ["webportsidepm@gmail.com"],
+        ["clientesportsidepm@gmail.com"],
         fail_silently=False,
     )
 
-    return HttpResponse("Email enviado")
+    return HttpResponse(f"Correos enviados: {resultado}")
