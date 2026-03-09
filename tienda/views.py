@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
+from django.http import HttpResponse
 import mercadopago
 
 def lista_comidas(request):
@@ -194,6 +195,7 @@ Total: ${pedido.total}
         mensaje,
         settings.DEFAULT_FROM_EMAIL,
         [pedido.email_cliente],
+        fail_silently=False,
     )
 
     send_mail(
@@ -201,6 +203,7 @@ Total: ${pedido.total}
         mensaje,
         settings.DEFAULT_FROM_EMAIL,
         ["webportsidepm@gmail.com"],
+        fail_silently=False,
     )
 
 
@@ -220,7 +223,8 @@ def crear_reserva(request):
             telefono=telefono,
             personas=personas,
             fecha=fecha,
-            hora=hora
+            hora=hora,
+            email=email_cliente
         )
 
         mensaje = f"""
@@ -294,3 +298,15 @@ def pagar_con_mercadopago(request, pedido_id):
     preference = preference_response["response"]
 
     return redirect(preference["init_point"])
+
+def test_email(request):
+
+    send_mail(
+        "Test Email",
+        "Si recibiste esto, el correo funciona.",
+        settings.DEFAULT_FROM_EMAIL,
+        ["tuemail@gmail.com"],
+        fail_silently=False,
+    )
+
+    return HttpResponse("Email enviado")

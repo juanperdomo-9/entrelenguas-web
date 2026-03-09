@@ -1,7 +1,8 @@
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import lista_comidas, agregar_al_carrito, ver_carrito, eliminar_del_carrito, restar_del_carrito, sumar_del_carrito, checkout, crear_reserva, reserva_confirmada, compra_exitosa, pagar_con_mercadopago
+from . import views
+from .views import lista_comidas, agregar_al_carrito, ver_carrito, eliminar_del_carrito, restar_del_carrito, sumar_del_carrito, checkout, crear_reserva, reserva_confirmada, compra_exitosa, pagar_con_mercadopago, test_email
 
 urlpatterns = [
     path('', lista_comidas, name='lista_comidas'),
@@ -15,6 +16,7 @@ urlpatterns = [
     path('reserva-confirmada/', reserva_confirmada, name='reserva_confirmada'),
     path('compra-exitosa/', compra_exitosa, name='compra_exitosa'),
     path('pagar/<int:pedido_id>/', pagar_con_mercadopago, name='pagar_con_mercadopago'),
+    path("test-email/", views.test_email, name="test_email"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
