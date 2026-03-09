@@ -150,8 +150,6 @@ def checkout(request):
 
         # SI ES EFECTIVO → mandar mail directo
         if forma_pago == "efectivo":
-            print("EMAIL USER:", settings.EMAIL_HOST_USER)
-            print("FROM EMAIL:", settings.DEFAULT_FROM_EMAIL)
 
             enviar_email_pedido(pedido)
 
