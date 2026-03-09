@@ -305,7 +305,7 @@ def test_email(request):
         "Test Email",
         "Si recibiste esto, el correo funciona.",
         settings.DEFAULT_FROM_EMAIL,
-        ["tuemail@gmail.com"],
+        ["webportsidepm@gmail.com"],
         fail_silently=False,
     )
 
