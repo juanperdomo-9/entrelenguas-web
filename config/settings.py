@@ -122,7 +122,15 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
 
 
 # MEDIA (Cloudinary)
@@ -139,9 +147,8 @@ cloudinary.config(
     api_secret="4XKcnhyDuV6QXNiWoO1Z0Epz8Lg",
 )
 
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
-MEDIA_URL = '/media/'
+
 
 
 # EMAIL CONFIG
