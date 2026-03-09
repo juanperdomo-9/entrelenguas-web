@@ -12,7 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-DEBUG = os.environ.get("DEBUG") == "True"
+#DEBUG = os.environ.get("DEBUG") == "True"
+
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -164,10 +166,14 @@ EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 EMAIL_TIMEOUT = 30
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
 # MERCADO PAGO
 
 MERCADOPAGO_PUBLIC_KEY = os.environ.get("MERCADOPAGO_PUBLIC_KEY")
 MERCADOPAGO_ACCESS_TOKEN = os.environ.get("MERCADOPAGO_ACCESS_TOKEN")
+
+print("EMAIL_USER:", EMAIL_HOST_USER)
+print("EMAIL_PASS:", EMAIL_HOST_PASSWORD)
 
