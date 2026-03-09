@@ -5,8 +5,6 @@ from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
 import mercadopago
-import threading
-
 
 def lista_comidas(request):
     comidas = Comida.objects.all()
@@ -153,7 +151,7 @@ def checkout(request):
         # SI ES EFECTIVO → mandar mail directo
         if forma_pago == "efectivo":
 
-             threading.Thread(target=enviar_email_pedido, args=(pedido,)).start()
+             enviar_email_pedido(pedido)
 
              return redirect("compra_exitosa")
 
@@ -235,25 +233,18 @@ Fecha: {fecha}
 Hora: {hora}
 """
 
-        threading.Thread(
-            target=send_mail,
-            args=(
-                "Nueva reserva en el restaurante",
-                mensaje,
-                settings.DEFAULT_FROM_EMAIL,
-                ["webportsidepm@gmail.com"],
-            ),
-        ).start()
-
-        threading.Thread(
-            target=send_mail,
-            args=(
-                "Reserva confirmada",
-                f"Hola {nombre}, tu reserva fue confirmada para {fecha} a las {hora}.",
-                settings.DEFAULT_FROM_EMAIL,
-                [email_cliente],
-            ),
-        ).start()
+        send_mail( 
+            "Nueva reserva en el restaurante", 
+            mensaje,
+            settings.DEFAULT_FROM_EMAIL, 
+            ["webportsidepm@gmail.com"], 
+        )
+        send_mail(
+            "Reserva confirmada",
+            f"Hola {nombre}, tu reserva fue confirmada para {fecha} a las {hora}.",
+            settings.DEFAULT_FROM_EMAIL,
+            [email_cliente],
+        )
 
         return redirect("reserva_confirmada")
 
@@ -271,7 +262,7 @@ def compra_exitosa(request):
         pedido.pagado = True
         pedido.save()
 
-        threading.Thread(target=enviar_email_pedido, args=(pedido,)).start()
+        enviar_email_pedido(pedido)
 
     return render(request, "tienda/compra_exitosa.html")
 
