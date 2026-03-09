@@ -1,11 +1,24 @@
-from django.shortcuts import render
-from .models import Comida, Pedido, ItemPedido, Reserva
-from django.shortcuts import get_object_or_404, redirect
-from django.http import JsonResponse
-from django.core.mail import send_mail
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse, HttpResponse
 from django.conf import settings
-from django.http import HttpResponse
+from .models import Comida, Pedido, ItemPedido, Reserva
 import mercadopago
+import resend
+import os
+
+# CONFIGURAR RESEND
+resend.api_key = os.environ.get("RESEND_API_KEY")
+
+
+def enviar_correo(destino, asunto, mensaje):
+
+    resend.Emails.send({
+        "from": "Portside <onboarding@resend.dev>",
+        "to": [destino],
+        "subject": asunto,
+        "html": f"<pre>{mensaje}</pre>"
+    })
+
 
 def lista_comidas(request):
     comidas = Comida.objects.all()
@@ -149,7 +162,7 @@ def checkout(request):
 
         request.session["carrito"] = {}
 
-        # SI ES EFECTIVO → mandar mail directo
+        # SI ES EFECTIVO
         if forma_pago == "efectivo":
 
             enviar_email_pedido(pedido)
@@ -190,20 +203,16 @@ Pedido:
 Total: ${pedido.total}
 """
 
-    send_mail(
+    enviar_correo(
+        pedido.email_cliente,
         "Pedido confirmado - Portside",
-        mensaje,
-        settings.DEFAULT_FROM_EMAIL,
-        [pedido.email_cliente],
-        fail_silently=False,
+        mensaje
     )
 
-    send_mail(
+    enviar_correo(
+        "webportsidepm@gmail.com",
         "Nuevo pedido recibido",
-        mensaje,
-        settings.DEFAULT_FROM_EMAIL,
-        ["webportsidepm@gmail.com"],
-        fail_silently=False,
+        mensaje
     )
 
 
@@ -237,17 +246,16 @@ Fecha: {fecha}
 Hora: {hora}
 """
 
-        send_mail( 
-            "Nueva reserva en el restaurante", 
-            mensaje,
-            settings.DEFAULT_FROM_EMAIL, 
-            ["webportsidepm@gmail.com"], 
+        enviar_correo(
+            "webportsidepm@gmail.com",
+            "Nueva reserva en el restaurante",
+            mensaje
         )
-        send_mail(
+
+        enviar_correo(
+            email_cliente,
             "Reserva confirmada",
-            f"Hola {nombre}, tu reserva fue confirmada para {fecha} a las {hora}.",
-            settings.DEFAULT_FROM_EMAIL,
-            [email_cliente],
+            f"Hola {nombre}, tu reserva fue confirmada para {fecha} a las {hora}."
         )
 
         return redirect("reserva_confirmada")
@@ -287,11 +295,11 @@ def pagar_con_mercadopago(request, pedido_id):
             }
         ],
         "back_urls": {
-            "success": f"http://127.0.0.1:8000/compra-exitosa/?pedido_id={pedido.id}",
-            "failure": "http://127.0.0.1:8000/",
-            "pending": "http://127.0.0.1:8000/"
+            "success": f"https://portsidepm.onrender.com/compra-exitosa/?pedido_id={pedido.id}",
+            "failure": "https://portsidepm.onrender.com/",
+            "pending": "https://portsidepm.onrender.com/"
         },
-         "auto_return": "approved",
+        "auto_return": "approved",
     }
 
     preference_response = sdk.preference().create(preference_data)
@@ -299,14 +307,13 @@ def pagar_con_mercadopago(request, pedido_id):
 
     return redirect(preference["init_point"])
 
+
 def test_email(request):
 
-    resultado = send_mail(
+    enviar_correo(
+        "clientesportsidepm@gmail.com",
         "Test Email",
-        "Correo de prueba desde Portside",
-        settings.DEFAULT_FROM_EMAIL,
-        ["clientesportsidepm@gmail.com"],
-        fail_silently=False,
+        "Correo de prueba desde Portside"
     )
 
-    return HttpResponse(f"Correos enviados: {resultado}")
+    return HttpResponse("Email enviado")
