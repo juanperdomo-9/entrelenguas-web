@@ -87,7 +87,7 @@ font-size:1.2rem;
 <div class="mb-3">
 <label>📦 Tipo de pedido</label>
 
-<select name="tipo_pedido" class="form-control">
+<select name="tipo_pedido" class="form-control" id="tipo_pedido">
 
 <option value="delivery">🚚 Delivery</option>
 <option value="retiro">🏪 Retiro en el local</option>
@@ -98,7 +98,7 @@ font-size:1.2rem;
 
 <div class="mb-3">
 <label>📍 Dirección (solo para delivery)</label>
-<input type="text" name="direccion" class="form-control">
+<input type="text" name="direccion" class="form-control" id="direccion">
 </div>
 
 <div class="mb-3">
@@ -135,6 +135,27 @@ placeholder="Ej: sin cebolla, extra picante, etc">
 </div>
 
 </div>
+
+<script>
+
+const tipoPedido = document.getElementById("tipo_pedido");
+const direccion = document.getElementById("direccion");
+
+function validarDireccion(){
+
+    if(tipoPedido.value === "delivery"){
+        direccion.required = true;
+    }else{
+        direccion.required = false;
+    }
+
+}
+
+tipoPedido.addEventListener("change", validarDireccion);
+
+validarDireccion();
+
+</script>
 
 </body>
 </html>
