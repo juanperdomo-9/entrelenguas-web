@@ -310,10 +310,16 @@ def pagar_con_mercadopago(request, pedido_id):
 
 def test_email(request):
 
-    enviar_correo(
-        "clientesportsidepm@gmail.com",
-        "Test Email",
-        "Correo de prueba desde Portside"
-    )
+    try:
 
-    return HttpResponse("Email enviado")
+        enviar_correo(
+            "clientesportsidepm@gmail.com",
+            "Test Email",
+            "Correo de prueba desde Portside"
+        )
+
+        return HttpResponse("Email enviado")
+
+    except Exception as e:
+
+        return HttpResponse(f"Error: {str(e)}")
