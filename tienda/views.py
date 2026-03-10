@@ -247,7 +247,7 @@ Hora: {hora}
 """
 
         enviar_correo(
-            "webportsidepm@gmail.com",
+            "juanperdomo918918@gmail.com",
             "Nueva reserva en el restaurante",
             mensaje
         )
@@ -286,21 +286,21 @@ def pagar_con_mercadopago(request, pedido_id):
     sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
 
     preference_data = {
-        "items": [
-            {
-                "title": f"Pedido #{pedido.id}",
-                "quantity": 1,
-                "currency_id": "MXN",
-                "unit_price": float(pedido.total)
-            }
-        ],
-        "back_urls": {
-            "success": f"https://portsidepm.onrender.com/compra-exitosa/?pedido_id={pedido.id}",
-            "failure": "https://portsidepm.onrender.com/",
-            "pending": "https://portsidepm.onrender.com/"
-        },
-        "auto_return": "approved",
-    }
+    "items": [
+        {
+             "title": f"Pedido #{pedido.id}",
+            "quantity": 1,
+            "currency_id": "MXN",
+            "unit_price": float(pedido.total)
+        }
+    ],
+    "back_urls": {
+        "success": f"https://portsidepm.onrender.com/compra-exitosa/?pedido_id={pedido.id}",
+        "failure": "https://portsidepm.onrender.com/",
+        "pending": "https://portsidepm.onrender.com/"
+    },
+    "auto_return": "approved",
+}
 
     preference_response = sdk.preference().create(preference_data)
     preference = preference_response["response"]
