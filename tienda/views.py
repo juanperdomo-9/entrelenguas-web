@@ -13,7 +13,7 @@ resend.api_key = os.environ.get("RESEND_API_KEY")
 def enviar_correo(destino, asunto, mensaje):
 
     resend.Emails.send({
-        "from": "Portside <onboarding@resend.dev>",
+        "from": "Portside <reservas@portsidepm.com>",
         "to": [destino],
         "subject": asunto,
         "html": f"<pre>{mensaje}</pre>"
