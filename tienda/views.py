@@ -295,12 +295,12 @@ def pagar_con_mercadopago(request, pedido_id):
         }
     ],
     "back_urls": {
-        "success": f"https://portsidepm.onrender.com/compra-exitosa/?pedido_id={pedido.id}",
-        "failure": "https://portsidepm.onrender.com/",
-        "pending": "https://portsidepm.onrender.com/"
+    "success": f"https://portsidepm.com/compra-exitosa/?pedido_id={pedido.id}",
+    "failure": "https://portsidepm.com/",
+    "pending": "https://portsidepm.com/"
     },
     "auto_return": "approved",
-}
+    }
 
     preference_response = sdk.preference().create(preference_data)
     preference = preference_response["response"]
