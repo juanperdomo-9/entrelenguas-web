@@ -247,7 +247,7 @@ Hora: {hora}
 """
 
         enviar_correo(
-            "juanperdomo918918@gmail.com",
+            "webportsidepm@gmail.com",
             "Nueva reserva en el restaurante",
             mensaje
         )
