@@ -16,7 +16,11 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "portsidepm.com",
+    "www.portsidepm.com",
+    "portsidepm.onrender.com",
+]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.onrender.com"
