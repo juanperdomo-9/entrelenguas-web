@@ -161,8 +161,35 @@ margin-bottom:5px;
 
 }
 
+/* BOTON WHATSAPP */
+
+.whatsapp-float{
+position:fixed;
+bottom:25px;
+right:25px;
+background:#25D366;
+color:white;
+font-size:20px;
+padding:14px 18px;
+border-radius:50px;
+text-decoration:none;
+box-shadow:0 6px 12px rgba(0,0,0,0.3);
+z-index:9999;
+transition:0.3s;
+}
+
+.whatsapp-float:hover{
+background:#1ebe5d;
+transform:scale(1.05);
+}
+
 </style>
 </head>
+
+<a href="https://wa.me/529843158308" 
+class="whatsapp-float" 
+target="_blank">
+💬
 
 <body>
 
@@ -180,6 +207,9 @@ margin-bottom:5px;
 <a href="{% url 'ver_carrito' %}" class="btn btn-mezcal">
 🛒 Pedido (<span id="contador-carrito">{{ cantidad_carrito }}</span>)
 </a>
+
+<a href="https://drive.google.com/file/d/1bNSqgl9iginIRY9NRCtshqRt0DQCOa96/view" class="btn btn-mezcal me-2">🍽 Menú local</a>
+
 
 </div>
 </div>
@@ -428,10 +458,6 @@ loading="lazy">
 
 <a href="https://www.facebook.com/share/181UfvAfkL/" target="_blank" class="btn btn-mezcal m-2">
 📘 Facebook
-</a>
-
-<a href="https://wa.me/52984358308" target="_blank" class="btn btn-mezcal m-2">
-💬 WhatsApp
 </a>
 
 </section>
