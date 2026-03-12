@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+{% load static %}
+
+<meta charset="UTF-8">
+<title>Portside Restaurant</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+background-color:#1c1a18;
+color:#e8d8c3;
+font-family:'Playfair Display',serif;
+}
+
+.navbar-custom{
+background-color:rgba(28,26,24,0.95);
+}
+
+.hero{
+height:100vh;
+background:
+linear-gradient(rgba(28,26,24,0.8),rgba(28,26,24,0.95)),
+url("{% static 'images/fondoR.png' %}");
+background-size:cover;
+background-position:center;
+}
+
+.hero-title{
+font-size:4.5rem;
+color:#c46a2d;
+font-weight:700;
+letter-spacing:6px;
+}
+
+.hero-subtitle{
+font-size:1.2rem;
+color:#d8c3a5;
+margin-top:20px;
+}
+
+.btn-mezcal{
+background-color:#8c2f1b;
+color:white;
+border-radius:30px;
+padding:10px 30px;
+border:none;
+}
+
+.btn-mezcal:hover{
+background-color:#c46a2d;
+}
+
+.section-title{
+color:#c46a2d;
+font-weight:700;
+letter-spacing:3px;
+margin-bottom:60px;
+}
+
+.galeria img{
+width:100%;
+height:350px;
+object-fit:cover;
+border-radius:10px;
+}
+
+footer{
+background-color:#111;
+padding:40px;
+text-align:center;
+margin-top:80px;
+font-size:0.9rem;
+color:#a38f75;
+}
+
+.whatsapp-float{
+position:fixed;
+bottom:25px;
+right:25px;
+background:#25D366;
+color:white;
+font-size:20px;
+padding:14px 18px;
+border-radius:50px;
+text-decoration:none;
+box-shadow:0 6px 12px rgba(0,0,0,0.3);
+z-index:9999;
+}
+
+</style>
+</head>
+
+<body>
+
+<a href="https://wa.me/529843158308" class="whatsapp-float" target="_blank">
+💬
+</a>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+<div class="container">
+
+<a class="navbar-brand" href="/en">PORTSIDE</a>
+
+<div>
+
+<a href="https://drive.google.com/file/d/1bNSqgl9iginIRY9NRCtshqRt0DQCOa96/view" class="btn btn-mezcal me-2">
+🍽 Local Menu
+</a>
+
+<a href="#social" class="btn btn-mezcal me-2">
+💬 Social
+</a>
+
+<a href="#reservation" class="btn btn-mezcal me-2">
+📅 Book Table
+</a>
+
+<a href="/en/pickup-food" class="btn btn-mezcal me-2">
+🥡 Pick Up
+</a>
+
+<a href="/en/pickup-wine" class="btn btn-mezcal me-2">
+🍷 Wine
+</a>
+
+<a href="/" class="btn btn-mezcal">
+🇪🇸 Español
+</a>
+
+</div>
+</div>
+</nav>
+
+
+<section class="hero d-flex align-items-center text-center">
+<div class="container">
+
+<h1 class="hero-title">PORTSIDE</h1>
+<p class="hero-subtitle">Puerto Morelos, Quintana Roo</p>
+
+</div>
+</section>
+
+
+<section class="container py-5 galeria">
+
+<div class="text-center">
+<h2 class="section-title">OUR KITCHEN</h2>
+<p style="color:#cbb89d">International cuisine.</p>
+</div>
+
+<div class="row mt-5">
+
+<div class="col-md-4 mb-4">
+<img src="{% static 'images/fondo1.png' %}" class="img-fluid">
+</div>
+
+<div class="col-md-4 mb-4">
+<img src="{% static 'images/fondo2.png' %}" class="img-fluid">
+</div>
+
+<div class="col-md-4 mb-4">
+<img src="{% static 'images/fondo3.png' %}" class="img-fluid">
+</div>
+
+</div>
+
+</section>
+
+
+<section id="reservation" class="container py-5">
+
+<div class="text-center">
+<h2 class="section-title">📅 BOOK A TABLE</h2>
+<p style="color:#cbb89d">Reserve your table in seconds</p>
+</div>
+
+<div class="row justify-content-center mt-4">
+
+<div class="col-md-5">
+
+<form method="POST" action="{% url 'crear_reserva' %}">
+
+{% csrf_token %}
+
+<div class="mb-3">
+<input type="text" name="nombre" class="form-control" placeholder="Name" required>
+</div>
+
+<div class="mb-3">
+<input type="tel" name="telefono" class="form-control" placeholder="Phone" required>
+</div>
+
+<div class="mb-3">
+<input type="number" name="personas" class="form-control" placeholder="Guests" required>
+</div>
+
+<div class="mb-3">
+<input type="date" name="fecha" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<input type="time" name="hora" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<input type="email" name="email" class="form-control" placeholder="Email" required>
+</div>
+
+<button class="btn btn-mezcal w-100">
+Book Table
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="container-fluid py-5">
+
+<div class="text-center mb-4">
+<h2 class="section-title">LOCATION</h2>
+<p style="color:#cbb89d">Find us in the heart of the city</p>
+</div>
+
+<div class="row justify-content-center">
+
+<div class="col-lg-10">
+
+<iframe
+src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3728.5542037511714!2d-86.87863972416203!3d20.84970079390344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f4e8995acdfc501%3A0x43bc4c26527c6049!2sPortside%20PM!5e0!3m2!1sen!2sus!4v1772817132935"
+width="100%"
+height="450"
+style="border:0;border-radius:12px;"
+loading="lazy">
+</iframe>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section id="social" class="container text-center pb-5">
+
+<h2 class="section-title">OUR SOCIAL MEDIA</h2>
+
+<a href="https://www.instagram.com/portsidepm" target="_blank" class="btn btn-mezcal m-2">
+📷 Instagram
+</a>
+
+<a href="https://www.facebook.com" target="_blank" class="btn btn-mezcal m-2">
+📘 Facebook
+</a>
+
+</section>
+
+<footer>
+© 2026 Portside Restaurant
+</footer>
+
+</body>
+</html>

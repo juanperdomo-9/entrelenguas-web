@@ -348,3 +348,28 @@ def test_email(request):
     except Exception as e:
 
         return HttpResponse(f"Error: {str(e)}")
+    
+def pickup_food_en(request):
+
+    comidas = Comida.objects.filter(tipo="comida")
+
+    carrito = request.session.get('carrito', {})
+    cantidad_carrito = sum(carrito.values())
+
+    return render(request,"tienda/pickup_food_en.html",{
+        "comidas": comidas,
+        "cantidad_carrito": cantidad_carrito
+    })
+
+
+def pickup_wine_en(request):
+
+    comidas = Comida.objects.filter(tipo="vino")
+
+    carrito = request.session.get('carrito', {})
+    cantidad_carrito = sum(carrito.values())
+
+    return render(request,"tienda/pickup_wine_en.html",{
+        "comidas": comidas,
+        "cantidad_carrito": cantidad_carrito
+    })
