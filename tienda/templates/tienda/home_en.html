@@ -24,25 +24,28 @@ background-color:rgba(28,26,24,0.95);
 }
 
 .hero{
-height:100vh;
+min-height:100vh;
+display:flex;
+align-items:center;
 background:
 linear-gradient(rgba(28,26,24,0.8),rgba(28,26,24,0.95)),
 url("{% static 'images/fondoR.png' %}");
 background-size:cover;
 background-position:center;
+text-align:center;
 }
 
 .hero-title{
-font-size:4.5rem;
+font-size:4rem;
 color:#c46a2d;
 font-weight:700;
-letter-spacing:6px;
+letter-spacing:5px;
 }
 
 .hero-subtitle{
 font-size:1.2rem;
 color:#d8c3a5;
-margin-top:20px;
+margin-top:15px;
 }
 
 .btn-mezcal{
@@ -51,9 +54,9 @@ color:white;
 border-radius:20px;
 padding:6px 14px;
 font-size:14px;
-transition:all 0.3s ease;
 border:none;
-} 
+transition:0.3s;
+}
 
 .btn-mezcal:hover{
 background-color:#c46a2d;
@@ -63,12 +66,12 @@ background-color:#c46a2d;
 color:#c46a2d;
 font-weight:700;
 letter-spacing:3px;
-margin-bottom:60px;
+margin-bottom:50px;
 }
 
 .galeria img{
 width:100%;
-height:350px;
+height:300px;
 object-fit:cover;
 border-radius:10px;
 }
@@ -96,6 +99,22 @@ box-shadow:0 6px 12px rgba(0,0,0,0.3);
 z-index:9999;
 }
 
+@media (max-width:768px){
+
+.hero-title{
+font-size:2.6rem;
+}
+
+.hero-subtitle{
+font-size:1rem;
+}
+
+.galeria img{
+height:220px;
+}
+
+}
+
 </style>
 </head>
 
@@ -106,42 +125,50 @@ z-index:9999;
 </a>
 
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+
 <div class="container">
 
 <a class="navbar-brand" href="/en">PORTSIDE</a>
 
-<div>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+<span class="navbar-toggler-icon"></span>
+</button>
 
-<a href="https://drive.google.com/file/d/1bNSqgl9iginIRY9NRCtshqRt0DQCOa96/view" class="btn btn-mezcal me-2">
+<div class="collapse navbar-collapse" id="navbarMenu">
+
+<div class="ms-auto">
+
+<a href="https://drive.google.com/file/d/1bNSqgl9iginIRY9NRCtshqRt0DQCOa96/view" class="btn btn-mezcal me-2 mb-2">
 🍽 Local Menu
 </a>
 
-<a href="#social" class="btn btn-mezcal me-2">
+<a href="#social" class="btn btn-mezcal me-2 mb-2">
 💬 Social
 </a>
 
-<a href="#reservation" class="btn btn-mezcal me-2">
+<a href="#reservation" class="btn btn-mezcal me-2 mb-2">
 📅 Book Table
 </a>
 
-<a href="/en/pickup-food" class="btn btn-mezcal me-2">
+<a href="/en/pickup-food" class="btn btn-mezcal me-2 mb-2">
 🥡 Pick Up
 </a>
 
-<a href="/en/pickup-wine" class="btn btn-mezcal me-2">
+<a href="/en/pickup-wine" class="btn btn-mezcal me-2 mb-2">
 🍷 Wine
 </a>
 
-<a href="/" class="btn btn-mezcal">
+<a href="/" class="btn btn-mezcal mb-2">
 🇪🇸 Español
 </a>
 
 </div>
 </div>
+
+</div>
 </nav>
 
-
-<section class="hero d-flex align-items-center text-center">
+<section class="hero">
 <div class="container">
 
 <h1 class="hero-title">PORTSIDE</h1>
@@ -149,7 +176,6 @@ z-index:9999;
 
 </div>
 </section>
-
 
 <section class="container py-5 galeria">
 
@@ -160,46 +186,16 @@ z-index:9999;
 
 <div class="row mt-5">
 
-<div class="col-md-4 mb-4">
-<img src="{% static 'images/fondo1.png' %}" class="img-fluid">
+{% for i in "123456789" %}
+
+<div class="col-lg-4 col-md-6 col-12 mb-4">
+<img src="{% static 'images/fondo'|add:i|add:'.png' %}" class="img-fluid">
 </div>
 
-<div class="col-md-4 mb-4">
-<img src="{% static 'images/fondo2.png' %}" class="img-fluid">
-</div>
-
-<div class="col-md-4 mb-4">
-<img src="{% static 'images/fondo3.png' %}" class="img-fluid">
-</div>
-
-<div class="col-md-4 mb-4">
-<img src="{% static 'images/fondo4.png' %}" class="img-fluid">
-</div>
-
-<div class="col-md-4 mb-4">
-<img src="{% static 'images/fondo5.png' %}" class="img-fluid">
-</div>
-
-<div class="col-md-4 mb-4">
-<img src="{% static 'images/fondo6.png' %}" class="img-fluid">
-</div>
-
-<div class="col-md-4 mb-4">
-<img src="{% static 'images/fondo7.png' %}" class="img-fluid">
-</div>
-
-<div class="col-md-4 mb-4">
-<img src="{% static 'images/fondo8.png' %}" class="img-fluid">
-</div>
-
-<div class="col-md-4 mb-4">
-<img src="{% static 'images/fondo9.png' %}" class="img-fluid">
-</div>
+{% endfor %}
 
 </div>
-
 </section>
-
 
 <section id="reservation" class="container py-5">
 
@@ -252,7 +248,6 @@ Book Table
 
 </section>
 
-
 <section class="container-fluid py-5">
 
 <div class="text-center mb-4">
@@ -278,7 +273,6 @@ loading="lazy">
 
 </section>
 
-
 <section id="social" class="container text-center pb-5">
 
 <h2 class="section-title">OUR SOCIAL MEDIA</h2>
@@ -296,6 +290,8 @@ loading="lazy">
 <footer>
 © 2026 Portside Restaurant
 </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
