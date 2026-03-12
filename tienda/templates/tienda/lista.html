@@ -5,7 +5,7 @@
 {% load static %}
 
 <meta charset="UTF-8">
-<title> Portside Restaurante</title>
+<title>Portside Restaurante</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
@@ -24,34 +24,38 @@ background-color:rgba(28,26,24,0.95);
 }
 
 .hero{
-height:100vh;
+min-height:100vh;
+display:flex;
+align-items:center;
 background:
 linear-gradient(rgba(28,26,24,0.8),rgba(28,26,24,0.95)),
 url("{% static 'images/fondoR.png' %}");
 background-size:cover;
 background-position:center;
+text-align:center;
 }
 
 .hero-title{
-font-size:4.5rem;
+font-size:4rem;
 color:#c46a2d;
 font-weight:700;
-letter-spacing:6px;
+letter-spacing:5px;
 }
 
 .hero-subtitle{
 font-size:1.2rem;
 color:#d8c3a5;
-margin-top:20px;
+margin-top:15px;
 }
 
 .btn-mezcal{
 background-color:#8c2f1b;
 color:white;
-border-radius:30px;
-padding:10px 30px;
-transition:all 0.3s ease;
+border-radius:20px;
+padding:6px 14px;
+font-size:14px;
 border:none;
+transition:0.3s;
 }
 
 .btn-mezcal:hover{
@@ -63,43 +67,12 @@ transform:translateY(-2px);
 color:#c46a2d;
 font-weight:700;
 letter-spacing:3px;
-margin-bottom:60px;
-}
-
-.card-custom{
-background-color:#2a2422;
-border:none;
-border-radius:15px;
-overflow:hidden;
-transition:all 0.3s ease;
-}
-
-.card-custom:hover{
-transform:translateY(-8px);
-}
-
-.card-title{
-color:#c46a2d;
-font-weight:600;
-margin-top:15px;
-}
-
-.card-text{
-color:#cbb89d;
-font-size:0.95rem;
-min-height:60px;
-}
-
-.precio{
-color:#ffffff;
-font-size:1.4rem;
-font-weight:700;
-margin-top:10px;
+margin-bottom:50px;
 }
 
 .galeria img{
 width:100%;
-height:350px;
+height:300px;
 object-fit:cover;
 border-radius:10px;
 }
@@ -113,56 +86,6 @@ font-size:0.9rem;
 color:#a38f75;
 }
 
-/* Toast */
-
-.toast-carrito{
-position:fixed;
-bottom:30px;
-right:30px;
-background:#8c2f1b;
-color:white;
-padding:15px 25px;
-border-radius:8px;
-opacity:0;
-transform:translateY(20px);
-transition:0.3s;
-z-index:9999;
-}
-
-.toast-carrito.show{
-opacity:1;
-transform:translateY(0);
-}
-
-/* RESPONSIVE */
-
-@media (max-width:768px){
-
-.hero{ height:80vh; }
-
-.hero-title{
-font-size:2.8rem;
-letter-spacing:2px;
-}
-
-.hero-subtitle{ font-size:1rem; }
-
-.navbar .btn{
-padding:8px 12px;
-font-size:14px;
-margin-bottom:5px;
-}
-
-.section-title{ font-size:1.8rem; }
-
-.card-text{ min-height:auto; }
-
-.galeria img{ height:250px; }
-
-}
-
-/* BOTON WHATSAPP */
-
 .whatsapp-float{
 position:fixed;
 bottom:25px;
@@ -175,189 +98,135 @@ border-radius:50px;
 text-decoration:none;
 box-shadow:0 6px 12px rgba(0,0,0,0.3);
 z-index:9999;
-transition:0.3s;
 }
 
-.whatsapp-float:hover{
-background:#1ebe5d;
-transform:scale(1.05);
+@media (max-width:768px){
+
+.hero-title{
+font-size:2.6rem;
+}
+
+.hero-subtitle{
+font-size:1rem;
+}
+
+.galeria img{
+height:220px;
+}
+
 }
 
 </style>
 </head>
 
-<a href="https://wa.me/529843158308" 
-class="whatsapp-float" 
-target="_blank">
+<body>
+
+<a href="https://wa.me/529843158308" class="whatsapp-float" target="_blank">
 💬
 </a>
 
-<body>
-
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+
 <div class="container">
 
-<a class="navbar-brand" href="#">PORTSIDE</a>
+<a class="navbar-brand" href="/">PORTSIDE</a>
 
-<div>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+<span class="navbar-toggler-icon"></span>
+</button>
 
-<a href="https://drive.google.com/file/d/1bNSqgl9iginIRY9NRCtshqRt0DQCOa96/view" class="btn btn-mezcal me-2">🍽 Menú local</a>
+<div class="collapse navbar-collapse" id="navbarMenu">
 
-<a href="#redes" class="btn btn-mezcal me-2">💬 Redes</a>
+<div class="ms-auto">
 
-<a href="#reservas" class="btn btn-mezcal me-2">📅 Reservar</a>
-
-<a href="{% url 'pickup_comida' %}" class="btn btn-mezcal me-2">
-🥡 Pick Up 
+<a href="https://drive.google.com/file/d/1bNSqgl9iginIRY9NRCtshqRt0DQCOa96/view" class="btn btn-mezcal me-2 mb-2">
+🍽 Menú local
 </a>
 
-<a href="{% url 'pickup_vinos' %}" class="btn btn-mezcal me-2">
+<a href="#redes" class="btn btn-mezcal me-2 mb-2">
+💬 Redes
+</a>
+
+<a href="#reservas" class="btn btn-mezcal me-2 mb-2">
+📅 Reservar
+</a>
+
+<a href="{% url 'pickup_comida' %}" class="btn btn-mezcal me-2 mb-2">
+🥡 Pick Up
+</a>
+
+<a href="{% url 'pickup_vinos' %}" class="btn btn-mezcal me-2 mb-2">
 🍷 Vinos
 </a>
 
-<a href="/en" class="btn btn-mezcal">
+<a href="/en" class="btn btn-mezcal mb-2">
 🇺🇸 English
 </a>
 
-
-
+</div>
 </div>
 </div>
 </nav>
 
 
-<section class="hero d-flex align-items-center text-center">
+<section class="hero">
 <div class="container">
 
 <h1 class="hero-title">PORTSIDE</h1>
 <p class="hero-subtitle">Puerto Morelos, Quintana Roo</p>
 
-
 </div>
 </section>
 
-
-<!-- TOAST -->
-
-<div id="toast-carrito" class="toast-carrito">
-Producto agregado al pedido
-</div>
-
-
-<script>
-
-function getCookie(name){
-let cookieValue=null;
-
-if(document.cookie && document.cookie!==''){
-const cookies=document.cookie.split(';');
-
-for(let i=0;i<cookies.length;i++){
-const cookie=cookies[i].trim();
-
-if(cookie.substring(0,name.length+1)===name+'='){
-cookieValue=decodeURIComponent(cookie.substring(name.length+1));
-break;
-}
-}
-}
-
-return cookieValue;
-}
-
-const csrftoken=getCookie('csrftoken');
-
-
-document.querySelectorAll(".agregar-carrito").forEach(boton=>{
-
-boton.addEventListener("click",function(){
-
-const comidaId=this.dataset.id;
-
-fetch(`/agregar/${comidaId}/`,{
-method:"POST",
-headers:{
-"X-CSRFToken":csrftoken,
-"Content-Type":"application/json"
-}
-})
-
-.then(response=>response.json())
-
-.then(data=>{
-
-document.getElementById("contador-carrito").innerText=data.cantidad_carrito;
-
-const toast=document.getElementById("toast-carrito");
-
-toast.classList.add("show");
-
-setTimeout(()=>{
-toast.classList.remove("show");
-},2000);
-
-});
-
-});
-
-});
-
-</script>
-
-<!-- GALERIA -->
 
 <section class="container py-5 galeria">
 
 <div class="text-center">
 <h2 class="section-title">NUESTRA COCINA</h2>
-<p style="color:#cbb89d"> Cocina Internacional.</p>
+<p style="color:#cbb89d">Cocina Internacional.</p>
 </div>
 
 <div class="row mt-5">
 
-<div class="col-md-4 mb-4">
+<div class="col-lg-4 col-md-6 col-12 mb-4">
 <img src="{% static 'images/fondo1.png' %}" class="img-fluid">
 </div>
 
-<div class="col-md-4 mb-4">
+<div class="col-lg-4 col-md-6 col-12 mb-4">
 <img src="{% static 'images/fondo2.png' %}" class="img-fluid">
 </div>
 
-<div class="col-md-4 mb-4">
+<div class="col-lg-4 col-md-6 col-12 mb-4">
 <img src="{% static 'images/fondo3.png' %}" class="img-fluid">
 </div>
 
-<div class="col-md-4 mb-4">
+<div class="col-lg-4 col-md-6 col-12 mb-4">
 <img src="{% static 'images/fondo4.png' %}" class="img-fluid">
 </div>
 
-<div class="col-md-4 mb-4">
+<div class="col-lg-4 col-md-6 col-12 mb-4">
 <img src="{% static 'images/fondo5.png' %}" class="img-fluid">
 </div>
 
-<div class="col-md-4 mb-4">
+<div class="col-lg-4 col-md-6 col-12 mb-4">
 <img src="{% static 'images/fondo6.png' %}" class="img-fluid">
 </div>
 
-<div class="col-md-4 mb-4">
+<div class="col-lg-4 col-md-6 col-12 mb-4">
 <img src="{% static 'images/fondo7.png' %}" class="img-fluid">
 </div>
 
-<div class="col-md-4 mb-4">
+<div class="col-lg-4 col-md-6 col-12 mb-4">
 <img src="{% static 'images/fondo8.png' %}" class="img-fluid">
 </div>
 
-<div class="col-md-4 mb-4">
+<div class="col-lg-4 col-md-6 col-12 mb-4">
 <img src="{% static 'images/fondo9.png' %}" class="img-fluid">
 </div>
 
-
-
 </div>
-
 </section>
 
-<!-- RESERVAS -->
 
 <section id="reservas" class="container py-5">
 
@@ -410,7 +279,6 @@ Reservar mesa
 
 </section>
 
-<!-- MAPA -->
 
 <section class="container-fluid py-5">
 
@@ -437,29 +305,26 @@ loading="lazy">
 
 </section>
 
-<!-- REDES -->
 
 <section id="redes" class="container text-center pb-5">
 
 <h2 class="section-title">NUESTRAS REDES</h2>
 
-<a href="https://www.instagram.com/portsidepm?igsh=MTBsYWZwZWZwZm1mcA==" target="_blank" class="btn btn-mezcal m-2">
+<a href="https://www.instagram.com/portsidepm" target="_blank" class="btn btn-mezcal m-2">
 📷 Instagram
 </a>
 
-<a href="https://www.facebook.com/share/181UfvAfkL/" target="_blank" class="btn btn-mezcal m-2">
+<a href="https://www.facebook.com" target="_blank" class="btn btn-mezcal m-2">
 📘 Facebook
 </a>
 
 </section>
 
 <footer>
-© 2026 Portside Restaurante ·
+© 2026 Portside Restaurante
 </footer>
 
-</body>
-</html>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
