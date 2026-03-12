@@ -206,8 +206,12 @@ target="_blank">
 
 <a href="#reservas" class="btn btn-mezcal me-2">📅 Reservar</a>
 
-<a href="{% url 'ver_carrito' %}" class="btn btn-mezcal">
-🛒 Pedido (<span id="contador-carrito">{{ cantidad_carrito }}</span>)
+<a href="{% url 'pickup_comida' %}" class="btn btn-mezcal mt-3">
+🥡 Pick Up 
+</a>
+
+<a href="{% url 'pickup_vinos' %}" class="btn btn-mezcal mt-3">
+🍷 Vinos
 </a>
 
 
@@ -223,54 +227,9 @@ target="_blank">
 <h1 class="hero-title">PORTSIDE</h1>
 <p class="hero-subtitle">Puerto Morelos, Quintana Roo</p>
 
-<a href="#productos" class="btn btn-mezcal mt-4">
-🍽 Ver Menú
-</a>
 
 </div>
 </section>
-
-
-<div class="container py-5" id="productos">
-
-<div class="text-center">
-<h2 class="section-title">NUESTRO MENÚ</h2>
-</div>
-
-<div class="row">
-
-{% for comida in comidas %}
-
-<div class="col-lg-4 col-md-6 col-12 mb-5">
-
-<div class="card card-custom shadow">
-
-{% if comida.imagen %}
-<img src="{{ comida.imagen.url }}" class="card-img-top" style="height:350px; object-fit:cover;">
-{% endif %}
-
-<div class="card-body text-center">
-
-<h5 class="card-title">{{ comida.nombre }}</h5>
-
-<p class="card-text">{{ comida.descripcion }}</p>
-
-<p class="precio">$ {{ comida.precio }}</p>
-
-<button
-class="btn btn-mezcal w-100 mt-3 agregar-carrito"
-data-id="{{ comida.id }}">
-🌮 Agregar al pedido
-</button>
-
-</div>
-</div>
-</div>
-
-{% endfor %}
-
-</div>
-</div>
 
 
 <!-- TOAST -->
@@ -346,7 +305,7 @@ toast.classList.remove("show");
 
 <div class="text-center">
 <h2 class="section-title">NUESTRA COCINA</h2>
-<p style="color:#cbb89d">Ingredientes frescos y tradición mexicana.</p>
+<p style="color:#cbb89d"> Cocina Internacional.</p>
 </div>
 
 <div class="row mt-5">

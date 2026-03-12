@@ -32,6 +32,31 @@ def lista_comidas(request):
         'cantidad_carrito': cantidad_carrito
     })
 
+def pickup_comida(request):
+
+    comidas = Comida.objects.filter(tipo="comida")
+
+    carrito = request.session.get('carrito', {})
+    cantidad_carrito = sum(carrito.values())
+
+    return render(request, "tienda/pickup_comida.html", {
+        "comidas": comidas,
+        "cantidad_carrito": cantidad_carrito
+    })
+
+
+def pickup_vinos(request):
+
+    comidas = Comida.objects.filter(tipo="vino")
+
+    carrito = request.session.get('carrito', {})
+    cantidad_carrito = sum(carrito.values())
+
+    return render(request, "tienda/pickup_vinos.html", {
+        "comidas": comidas,
+        "cantidad_carrito": cantidad_carrito
+    })
+
 
 def agregar_al_carrito(request, comida_id):
     carrito = request.session.get('carrito', {})

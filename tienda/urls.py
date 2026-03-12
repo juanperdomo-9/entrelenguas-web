@@ -17,5 +17,7 @@ urlpatterns = [
     path('compra-exitosa/', compra_exitosa, name='compra_exitosa'),
     path('pagar/<int:pedido_id>/', pagar_con_mercadopago, name='pagar_con_mercadopago'),
     path("test-email/", views.test_email, name="test_email"),
+    path("pickup-comida/", views.pickup_comida, name="pickup_comida"),
+    path("pickup-vinos/", views.pickup_vinos, name="pickup_vinos"),
 ]
 
