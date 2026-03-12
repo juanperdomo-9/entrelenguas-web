@@ -407,4 +407,68 @@ def cart_en(request):
 
 
 def checkout_en(request):
-    return render(request,"tienda/checkout_en.html")
+
+    carrito = request.session.get("carrito", {})
+
+    if not carrito:
+        return redirect("pickup_food_en")
+
+    total = 0
+
+    for comida_id, cantidad in carrito.items():
+        comida = get_object_or_404(Comida, id=comida_id)
+        total += comida.precio * cantidad
+
+    if request.method == "POST":
+
+        total = 0
+
+        nombre = request.POST.get("nombre")
+        email = request.POST.get("email")
+        direccion = request.POST.get("direccion")
+        tipo_pedido = request.POST.get("tipo_pedido")
+        forma_pago = request.POST.get("forma_pago")
+        aclaraciones = request.POST.get("aclaraciones")
+
+        pedido = Pedido.objects.create(
+            nombre_cliente=nombre,
+            email_cliente=email,
+            direccion=direccion,
+            tipo_pedido=tipo_pedido,
+            forma_pago=forma_pago,
+            total=0
+        )
+
+        for comida_id, cantidad in carrito.items():
+
+            comida = get_object_or_404(Comida, id=comida_id)
+
+            subtotal = comida.precio * cantidad
+            total += subtotal
+
+            ItemPedido.objects.create(
+                pedido=pedido,
+                comida=comida,
+                cantidad=cantidad,
+                precio=comida.precio
+            )
+
+        pedido.total = total
+        pedido.save()
+
+        request.session["carrito"] = {}
+
+        if forma_pago == "efectivo":
+
+            enviar_email_pedido(pedido)
+
+            return redirect("order_success_en")
+
+        return redirect("pagar_con_mercadopago", pedido_id=pedido.id)
+
+    return render(request, "tienda/checkout_en.html", {
+        "total": total
+    })
+
+def order_success_en(request):
+    return render(request, "tienda/order_success_en.html")

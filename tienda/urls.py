@@ -24,5 +24,6 @@ urlpatterns = [
     path("en/pickup-wine/", views.pickup_wine_en, name="pickup_wine_en"),
     path("en/checkout/", views.checkout_en, name="checkout_en"),
     path("en/cart/", views.cart_en, name="cart_en"),
+    path("en/order-success/", views.order_success_en, name="order_success_en"),
 ]
 
