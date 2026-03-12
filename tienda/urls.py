@@ -19,10 +19,10 @@ urlpatterns = [
     path("test-email/", views.test_email, name="test_email"),
     path("pickup-comida/", views.pickup_comida, name="pickup_comida"),
     path("pickup-vinos/", views.pickup_vinos, name="pickup_vinos"),
-    path("en/", views.home_en),
-    path("en/pickup-food/", views.pickup_food_en),
-    path("en/pickup-wine/", views.pickup_wine_en),
-    path("en/checkout/", views.checkout_en),
-    path("en/cart/", views.cart_en),
+    path("en/", views.home_en, name="home_en"),
+    path("en/pickup-food/", views.pickup_food_en, name="pickup_food_en"),
+    path("en/pickup-wine/", views.pickup_wine_en, name="pickup_wine_en"),
+    path("en/checkout/", views.checkout_en, name="checkout_en"),
+    path("en/cart/", views.cart_en, name="cart_en"),
 ]
 
