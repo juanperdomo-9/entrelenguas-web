@@ -382,3 +382,29 @@ def pickup_wine_en(request):
         "comidas": comidas,
         "cantidad_carrito": cantidad_carrito
     })
+
+def cart_en(request):
+
+    carrito = request.session.get('carrito', {})
+    comidas = []
+    total = 0
+
+    for comida_id, cantidad in carrito.items():
+        comida = Comida.objects.get(id=comida_id)
+        subtotal = comida.precio * cantidad
+        total += subtotal
+
+        comidas.append({
+            'comida': comida,
+            'cantidad': cantidad,
+            'subtotal': subtotal
+        })
+
+    return render(request,"tienda/cart_en.html",{
+        "comidas": comidas,
+        "total": total
+    })
+
+
+def checkout_en(request):
+    return render(request,"tienda/checkout_en.html")

@@ -2,7 +2,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
-from .views import lista_comidas, agregar_al_carrito, ver_carrito, eliminar_del_carrito, restar_del_carrito, sumar_del_carrito, checkout, crear_reserva, reserva_confirmada, compra_exitosa, pagar_con_mercadopago, test_email
+from .views import lista_comidas, agregar_al_carrito, ver_carrito, eliminar_del_carrito, restar_del_carrito, sumar_del_carrito, checkout, crear_reserva, reserva_confirmada, compra_exitosa, pagar_con_mercadopago, test_email, checkout_en
 
 urlpatterns = [
     path('', lista_comidas, name='lista_comidas'),
@@ -22,5 +22,7 @@ urlpatterns = [
     path("en/", views.home_en),
     path("en/pickup-food/", views.pickup_food_en),
     path("en/pickup-wine/", views.pickup_wine_en),
+    path("en/checkout/", views.checkout_en),
+    path("en/cart/", views.cart_en),
 ]
 

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Your Order | Portside</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+background:#1c1a18;
+color:#e8d8c3;
+font-family:serif;
+}
+
+.container-carrito{
+max-width:900px;
+margin:auto;
+}
+
+.titulo{
+font-size:2.5rem;
+color:#c46a2d;
+margin-bottom:40px;
+}
+
+.table{
+background:#2a2422;
+border-radius:10px;
+overflow:hidden;
+}
+
+.table th{
+color:#c46a2d;
+font-weight:600;
+}
+
+.table td{
+vertical-align:middle;
+color:#e8d8c3;
+}
+
+.total-box{
+background:#2a2422;
+padding:25px;
+border-radius:10px;
+margin-top:30px;
+}
+
+.total-precio{
+font-size:1.8rem;
+color:white;
+font-weight:bold;
+}
+
+.btn-mezcal{
+background:#8c2f1b;
+border:none;
+color:white;
+padding:12px 25px;
+border-radius:30px;
+transition:0.3s;
+}
+
+.btn-mezcal:hover{
+background:#c46a2d;
+}
+
+.btn-outline-light{
+border-radius:30px;
+padding:10px 20px;
+}
+
+.producto-info{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.producto-img{
+width:60px;
+height:60px;
+object-fit:cover;
+border-radius:6px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container container-carrito py-5">
+
+<h1 class="titulo text-center">
+🛒 Your Order
+</h1>
+
+{% if comidas %}
+
+<div class="table-responsive">
+
+<table class="table table-dark align-middle">
+
+<thead>
+<tr>
+<th>Product</th>
+<th>Quantity</th>
+<th>Subtotal</th>
+<th></th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for item in comidas %}
+
+<tr>
+
+<td>
+
+<div class="producto-info">
+
+{% if item.comida.imagen %}
+<img src="{{ item.comida.imagen.url }}" class="producto-img">
+{% endif %}
+
+<strong>{{ item.comida.nombre }}</strong>
+
+</div>
+
+</td>
+
+<td>
+
+<div class="d-flex align-items-center gap-2">
+
+<a href="{% url 'restar_del_carrito' item.comida.id %}" class="btn btn-sm btn-outline-light">-</a>
+
+<span>{{ item.cantidad }}</span>
+
+<a href="{% url 'sumar_del_carrito' item.comida.id %}" class="btn btn-sm btn-outline-light">+</a>
+
+</div>
+
+</td>
+
+<td>
+$ {{ item.subtotal }}
+</td>
+
+<td>
+
+<a href="{% url 'eliminar_del_carrito' item.comida.id %}" class="btn btn-sm btn-danger">
+Remove
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="total-box d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+<div>
+
+<div class="total-precio">
+Total: $ {{ total }}
+</div>
+
+<p style="color:#cbb89d;font-size:0.9rem;margin-top:5px;">
+✔ Secure payment
+</p>
+
+</div>
+
+<div class="d-flex gap-3">
+
+<a href="/en/pickup-food/" class="btn btn-outline-light">
+Continue shopping
+</a>
+
+<a href="/en/checkout/" class="btn btn-mezcal">
+Checkout
+</a>
+
+</div>
+
+</div>
+
+{% else %}
+
+<div class="text-center">
+
+<h3 class="mb-4">
+Your cart is empty
+</h3>
+
+<a href="/en/pickup-food/" class="btn btn-mezcal">
+Browse menu
+</a>
+
+</div>
+
+{% endif %}
+
+</div>
+
+</body>
+</html>
