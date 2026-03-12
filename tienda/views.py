@@ -32,6 +32,15 @@ def lista_comidas(request):
         'cantidad_carrito': cantidad_carrito
     })
 
+def home_en(request):
+
+    carrito = request.session.get('carrito', {})
+    cantidad_carrito = sum(carrito.values())
+
+    return render(request, "tienda/home_en.html", {
+        "cantidad_carrito": cantidad_carrito
+    })
+
 def pickup_comida(request):
 
     comidas = Comida.objects.filter(tipo="comida")
