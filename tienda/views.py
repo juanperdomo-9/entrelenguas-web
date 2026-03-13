@@ -378,7 +378,7 @@ def pickup_wine_en(request):
     carrito = request.session.get('carrito', {})
     cantidad_carrito = sum(carrito.values())
 
-    return render(request,"tienda/pickup_wine_en.html",{
+    return render(request,"tienda/pickup_wines_en.html",{
         "comidas": comidas,
         "cantidad_carrito": cantidad_carrito
     })
