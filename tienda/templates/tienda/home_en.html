@@ -99,6 +99,13 @@ box-shadow:0 6px 12px rgba(0,0,0,0.3);
 z-index:9999;
 }
 
+.card-img-top{
+height:250px;
+object-fit:contain;
+background:#2a2422;
+padding:10px;
+}
+
 @media (max-width:768px){
 
 .hero-title{
@@ -189,7 +196,7 @@ height:220px;
 {% for i in "123456789" %}
 
 <div class="col-lg-4 col-md-6 col-12 mb-4">
-<img src="{% static 'images/fondo'|add:i|add:'.png' %}" class="img-fluid">
+<img src="{% static 'images/fondo'|add:i|add:'.png' %}" class="galeria-img">
 </div>
 
 {% endfor %}
