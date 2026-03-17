@@ -115,24 +115,28 @@ font-size:1rem;
 /* 💻 DESKTOP (acá está la magia) */
 @media (min-width:992px){
 
-.galeria{
-  max-width: 700px;   /* 🔥 achica toda la galería */
-  margin: auto;
-}
+  .galeria{
+    max-width: 900px;   /* 🔥 más ancho */
+    margin: auto;
+  }
 
-.galeria .row{
-  justify-content: center;
-}
+  .galeria .row{
+    justify-content: center;
+  }
 
-.galeria-img{
-  width: 100%;
-  height: 130px;       /* 🔥 imágenes mucho más chicas */
-  object-fit: cover;
-  border-radius: 8px;
-}
+  /* 🔥 3 columnas reales */
+  .galeria .col-lg-2{
+    width: 33.333%;
+  }
+
+  .galeria-img{
+    width: 100%;
+    height: 180px;     /* 🔥 más grandes */
+    object-fit: cover;
+    border-radius: 8px;
+  }
 
 }
-
 </style>
 </head>
 
