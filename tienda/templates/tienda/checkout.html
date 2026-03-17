@@ -39,6 +39,13 @@ padding:12px;
 font-weight:bold;
 }
 
+.resumen{
+background:#1f1a18;
+padding:15px;
+border-radius:8px;
+margin-bottom:20px;
+}
+
 @media (max-width:768px){
 
 .checkout-box{
@@ -68,7 +75,20 @@ font-size:1.2rem;
 
 <h1 class="mb-4 text-center">🛒 Finalizar compra</h1>
 
-<h4 class="mb-4 text-center">Total: $ {{ total }}</h4>
+<!-- 💰 RESUMEN -->
+<div class="resumen text-center">
+
+<p>Subtotal: $ {{ total }}</p>
+
+<p style="color:#cbb89d;">
+Envío: $ {{ envio }}
+</p>
+
+<h4>
+Total final: $ {{ total|add:envio }}
+</h4>
+
+</div>
 
 <form method="POST">
 

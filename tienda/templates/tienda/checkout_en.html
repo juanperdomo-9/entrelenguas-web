@@ -39,6 +39,13 @@ padding:12px;
 font-weight:bold;
 }
 
+.resumen{
+background:#1f1a18;
+padding:15px;
+border-radius:8px;
+margin-bottom:20px;
+}
+
 </style>
 
 </head>
@@ -51,7 +58,20 @@ font-weight:bold;
 
 <h1 class="mb-4 text-center">🛒 Checkout</h1>
 
-<h4 class="mb-4 text-center">Total: $ {{ total }}</h4>
+<!-- 💰 SUMMARY -->
+<div class="resumen text-center">
+
+<p>Subtotal: $ {{ total }}</p>
+
+<p style="color:#cbb89d;">
+Shipping: $ {{ envio }}
+</p>
+
+<h4>
+Final total: $ {{ total|add:envio }}
+</h4>
+
+</div>
 
 <form method="POST">
 
@@ -118,6 +138,24 @@ placeholder="Example: no onion, extra spicy, etc">
 </div>
 
 </div>
+
+<script>
+
+const tipoPedido = document.getElementById("tipo_pedido");
+const direccion = document.getElementById("direccion");
+
+function validarDireccion(){
+    if(tipoPedido.value === "delivery"){
+        direccion.required = true;
+    }else{
+        direccion.required = false;
+    }
+}
+
+tipoPedido.addEventListener("change", validarDireccion);
+validarDireccion();
+
+</script>
 
 </body>
 </html>

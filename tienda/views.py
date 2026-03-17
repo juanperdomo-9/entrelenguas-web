@@ -146,6 +146,8 @@ def sumar_del_carrito(request, comida_id):
 
 def checkout(request):
 
+    ENVIO = 75
+
     carrito = request.session.get("carrito", {})
 
     if not carrito:
@@ -191,23 +193,26 @@ def checkout(request):
                 precio=comida.precio
             )
 
+        # 🚚 SUMAR ENVÍO SOLO SI ES DELIVERY
+        if tipo_pedido == "delivery":
+            total += ENVIO
+
         pedido.total = total
         pedido.save()
 
         request.session["carrito"] = {}
 
-        # SI ES EFECTIVO
+        # 💵 EFECTIVO
         if forma_pago == "efectivo":
-
             enviar_email_pedido(pedido)
-
             return redirect("compra_exitosa")
 
-        # SI ES MERCADO PAGO
+        # 💳 MERCADO PAGO
         return redirect("pagar_con_mercadopago", pedido_id=pedido.id)
 
     return render(request, "tienda/checkout.html", {
-        "total": total
+        "total": total,
+        "envio": ENVIO
     })
 
 
@@ -408,6 +413,8 @@ def cart_en(request):
 
 def checkout_en(request):
 
+    ENVIO = 75
+
     carrito = request.session.get("carrito", {})
 
     if not carrito:
@@ -453,22 +460,24 @@ def checkout_en(request):
                 precio=comida.precio
             )
 
+        # 🚚 SHIPPING
+        if tipo_pedido == "delivery":
+            total += ENVIO
+
         pedido.total = total
         pedido.save()
 
         request.session["carrito"] = {}
 
         if forma_pago == "efectivo":
-
             enviar_email_pedido(pedido)
-
             return redirect("order_success_en")
 
         return redirect("pagar_con_mercadopago", pedido_id=pedido.id)
 
     return render(request, "tienda/checkout_en.html", {
-        "total": total
+        "total": total,
+        "envio": ENVIO
     })
-
 def order_success_en(request):
     return render(request, "tienda/order_success_en.html")
