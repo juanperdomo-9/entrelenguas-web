@@ -93,14 +93,6 @@ box-shadow:0 6px 12px rgba(0,0,0,0.3);
 z-index:9999;
 }
 
-.galeria img{
-width:100%;
-height:300px;
-object-fit:cover;
-border-radius:10px;
-}
-
-
 @media (max-width:768px){
 
 .hero-title{
@@ -111,9 +103,18 @@ font-size:2.6rem;
 font-size:1rem;
 }
 
-.galeria img{
-height:220px;
+.galeria-box{
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
+
+.galeria-img{
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;  /* 🔥 no recorta */
 }
 
 </style>
@@ -186,46 +187,64 @@ height:220px;
 <p style="color:#cbb89d">Cocina Internacional.</p>
 </div>
 
-<div class="row mt-5">
+<div class="row">
 
-<div class="col-lg-4 col-md-6 col-12 mb-4">
-<img src="{% static 'images/fondo1.png' %}" class="galeria-img">
-</div>
+  <div class="col-lg-4 col-md-6 col-12 mb-4">
+    <div class="galeria-box">
+      <img src="{% static 'images/fondo1.png' %}" class="galeria-img">
+    </div>
+  </div>
 
-<div class="col-lg-4 col-md-6 col-12 mb-4">
-<img src="{% static 'images/fondo2.png' %}" class="galeria-img">
-</div>
+  <div class="col-lg-4 col-md-6 col-12 mb-4">
+    <div class="galeria-box">
+      <img src="{% static 'images/fondo2.png' %}" class="galeria-img">
+    </div>
+  </div>
 
-<div class="col-lg-4 col-md-6 col-12 mb-4">
-<img src="{% static 'images/fondo3.png' %}" class="galeria-img">
-</div>
+  <div class="col-lg-4 col-md-6 col-12 mb-4">
+    <div class="galeria-box">
+      <img src="{% static 'images/fondo3.png' %}" class="galeria-img">
+    </div>
+  </div>
 
-<div class="col-lg-4 col-md-6 col-12 mb-4">
-<img src="{% static 'images/fondo4.png' %}" class="galeria-img">
-</div>
+  <div class="col-lg-4 col-md-6 col-12 mb-4">
+    <div class="galeria-box">
+      <img src="{% static 'images/fondo4.png' %}" class="galeria-img">
+    </div>
+  </div>
 
-<div class="col-lg-4 col-md-6 col-12 mb-4">
-<img src="{% static 'images/fondo5.png' %}" class="galeria-img">
-</div>
+  <div class="col-lg-4 col-md-6 col-12 mb-4">
+    <div class="galeria-box">
+      <img src="{% static 'images/fondo5.png' %}" class="galeria-img">
+    </div>
+  </div>
 
-<div class="col-lg-4 col-md-6 col-12 mb-4">
-<img src="{% static 'images/fondo6.png' %}" class="galeria-img">
-</div>
+  <div class="col-lg-4 col-md-6 col-12 mb-4">
+    <div class="galeria-box">
+      <img src="{% static 'images/fondo6.png' %}" class="galeria-img">
+    </div>
+  </div>
 
-<div class="col-lg-4 col-md-6 col-12 mb-4">
-<img src="{% static 'images/fondo7.png' %}" class="galeria-img">
-</div>
+  <div class="col-lg-4 col-md-6 col-12 mb-4">
+    <div class="galeria-box">
+      <img src="{% static 'images/fondo7.png' %}" class="galeria-img">
+    </div>
+  </div>
 
-<div class="col-lg-4 col-md-6 col-12 mb-4">
-<img src="{% static 'images/fondo8.png' %}" class="galeria-img">
-</div>
+  <div class="col-lg-4 col-md-6 col-12 mb-4">
+    <div class="galeria-box">
+      <img src="{% static 'images/fondo8.png' %}" class="galeria-img">
+    </div>
+  </div>
 
-<div class="col-lg-4 col-md-6 col-12 mb-4">
-<img src="{% static 'images/fondo9.png' %}" class="galeria-img">
+  <div class="col-lg-4 col-md-6 col-12 mb-4">
+    <div class="galeria-box">
+      <img src="{% static 'images/fondo9.png' %}" class="galeria-img">
+    </div>
+  </div>
+
 </div>
 </section>
-
-
 <section id="reservas" class="container py-5">
 
 <div class="text-center">
