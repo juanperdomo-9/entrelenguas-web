@@ -507,4 +507,5 @@ def verificar_recaptcha(token):
         'response': token
     }
     r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+    print("RESPUESTA CAPTCHA:", r.json())
     return r.json().get('success', False)
