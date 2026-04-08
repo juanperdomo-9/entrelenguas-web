@@ -4,6 +4,7 @@ from django.conf import settings
 from .models import Comida, Pedido, ItemPedido, Reserva
 import mercadopago
 import resend
+import requests
 import os
 
 # CONFIGURAR RESEND
@@ -159,7 +160,14 @@ def checkout(request):
         comida = get_object_or_404(Comida, id=comida_id)
         total += comida.precio * cantidad
 
-    if request.method == "POST":
+    if request.method == 'POST':
+
+        # 🔴 1. Obtener token del captcha
+        token = request.POST.get('g-recaptcha-response')
+
+        # 🔴 2. Validar captcha
+        if not verificar_recaptcha(token):
+            return HttpResponse("Captcha inválido, intentá nuevamente.")
 
         total = 0
 
@@ -257,7 +265,11 @@ Total: ${pedido.total}
 
 def crear_reserva(request):
 
-    if request.method == "POST":
+    if request.method == 'POST':
+        token = request.POST.get('g-recaptcha-response')
+
+        if not verificar_recaptcha(token):
+            return HttpResponse("Captcha inválido")
 
         nombre = request.POST.get("nombre")
         telefono = request.POST.get("telefono")
@@ -426,7 +438,14 @@ def checkout_en(request):
         comida = get_object_or_404(Comida, id=comida_id)
         total += comida.precio * cantidad
 
-    if request.method == "POST":
+    if request.method == 'POST':
+
+        # 🔴 1. Obtener token del captcha
+        token = request.POST.get('g-recaptcha-response')
+
+        # 🔴 2. Validar captcha
+        if not verificar_recaptcha(token):
+            return HttpResponse("Captcha inválido, intentá nuevamente.")
 
         total = 0
 
@@ -481,3 +500,11 @@ def checkout_en(request):
     })
 def order_success_en(request):
     return render(request, "tienda/order_success_en.html")
+
+def verificar_recaptcha(token):
+    data = {
+        'secret': settings.RECAPTCHA_SECRET_KEY,
+        'response': token
+    }
+    r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+    return r.json().get('success', False)
