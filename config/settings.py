@@ -39,7 +39,7 @@ INSTALLED_APPS = [
 
     'cloudinary_storage',
     'cloudinary',
-
+    'captcha',
     'tienda',
 ]
 
@@ -85,9 +85,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # DATABASE
 
 DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
-    )
+    "default": dj_database_url.parse("postgresql://portside:TfHeNzXr9TiyXlqdY2jNf48T3ozS2pAD@dpg-d6mfilp4tr6s738cus50-a.oregon-postgres.render.com/portdise")
 }
 # PASSWORD VALIDATION
 
@@ -177,6 +175,7 @@ EMAIL_TIMEOUT = 30
 MERCADOPAGO_PUBLIC_KEY = os.environ.get("MERCADOPAGO_PUBLIC_KEY")
 MERCADOPAGO_ACCESS_TOKEN = os.environ.get("MERCADOPAGO_ACCESS_TOKEN")
 
-print("EMAIL_USER:", EMAIL_HOST_USER)
-print("EMAIL_PASS:", EMAIL_HOST_PASSWORD)
+print(DATABASES)
 
+
+RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY")
