@@ -84,7 +84,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # DATABASE
 
 DATABASES = {
-    "default": dj_database_url.parse("postgresql://portside:TfHeNzXr9TiyXlqdY2jNf48T3ozS2pAD@dpg-d6mfilp4tr6s738cus50-a.oregon-postgres.render.com/portdise")
+    "default": dj_database_url.parse(
+        "postgresql://portside:TfHeNzXr9TiyXlqdY2jNf48T3ozS2pAD@dpg-d6mfilp4tr6s738cus50-a.oregon-postgres.render.com/portdise",
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 # PASSWORD VALIDATION
 
@@ -178,3 +182,4 @@ print(DATABASES)
 
 
 RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY")
+

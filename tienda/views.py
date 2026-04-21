@@ -147,7 +147,11 @@ def sumar_del_carrito(request, comida_id):
 
 def checkout(request):
 
-    ENVIO = 75
+    ZONAS = {
+        "zona1": 70,
+        "zona2": 100,
+        "zona3": 130,
+    }
 
     carrito = request.session.get("carrito", {})
 
@@ -175,6 +179,7 @@ def checkout(request):
         email = request.POST.get("email")
         direccion = request.POST.get("direccion")
         tipo_pedido = request.POST.get("tipo_pedido")
+        zona = request.POST.get("zona")
         forma_pago = request.POST.get("forma_pago")
         aclaraciones = request.POST.get("aclaraciones")
 
@@ -184,7 +189,8 @@ def checkout(request):
             direccion=direccion,
             tipo_pedido=tipo_pedido,
             forma_pago=forma_pago,
-            total=0
+            total=0,
+            zona=zona
         )
 
         for comida_id, cantidad in carrito.items():
@@ -203,7 +209,11 @@ def checkout(request):
 
         # 🚚 SUMAR ENVÍO SOLO SI ES DELIVERY
         if tipo_pedido == "delivery":
-            total += ENVIO
+            if not zona:
+                return HttpResponse("Seleccioná tu zona de entrega")
+
+            if zona in ZONAS:
+                total += ZONAS[zona]
 
         pedido.total = total
         pedido.save()
@@ -220,46 +230,81 @@ def checkout(request):
 
     return render(request, "tienda/checkout.html", {
         "total": total,
-        "envio": ENVIO
     })
 
 
 def enviar_email_pedido(pedido):
 
+    ZONAS = {
+        "zona1": 70,
+        "zona2": 100,
+        "zona3": 130,
+    }
+
     items = ItemPedido.objects.filter(pedido=pedido)
 
     detalle_pedido = ""
+    subtotal_total = 0
 
     for item in items:
         subtotal = item.precio * item.cantidad
+        subtotal_total += subtotal
         detalle_pedido += f"{item.comida.nombre} x{item.cantidad} - ${subtotal}\n"
 
-    mensaje = f"""
-Pedido confirmado
+    envio = 0
+    zona = getattr(pedido, "zona", None)
 
-Cliente: {pedido.nombre_cliente}
+    if pedido.tipo_pedido == "delivery" and zona in ZONAS:
+        envio = ZONAS[zona]
 
-Tipo de pedido: {pedido.tipo_pedido}
+    # 📧 CLIENTE
+    mensaje_cliente = f"""
+Hola {pedido.nombre_cliente},
 
-Dirección:
-{pedido.direccion}
+Tu pedido fue confirmado 🎉
 
-Pedido:
+Tipo: {pedido.tipo_pedido}
+Dirección: {pedido.direccion}
+
+Detalle:
 {detalle_pedido}
 
+Subtotal: ${subtotal_total}
+Envío: ${envio}
+Total: ${pedido.total}
+
+Gracias por elegir Portside 🙌
+"""
+
+    # 📧 NEGOCIO
+    mensaje_admin = f"""
+Nuevo pedido 🚨
+
+Cliente: {pedido.nombre_cliente}
+Email: {pedido.email_cliente}
+
+Tipo: {pedido.tipo_pedido}
+Zona: {zona}
+Dirección: {pedido.direccion}
+
+Detalle:
+{detalle_pedido}
+
+Subtotal: ${subtotal_total}
+Envío: ${envio}
 Total: ${pedido.total}
 """
 
     enviar_correo(
         pedido.email_cliente,
-        "Pedido confirmado - Portside",
-        mensaje
+        "Confirmación de pedido - Portside",
+        mensaje_cliente
     )
 
     enviar_correo(
         "webportsidepm@gmail.com",
         "Nuevo pedido recibido",
-        mensaje
+        mensaje_admin
     )
 
 
@@ -425,8 +470,11 @@ def cart_en(request):
 
 def checkout_en(request):
 
-    ENVIO = 75
-
+    ZONAS = {
+        "zona1": 70,
+        "zona2": 100,
+        "zona3": 130,
+    }
     carrito = request.session.get("carrito", {})
 
     if not carrito:
@@ -453,6 +501,7 @@ def checkout_en(request):
         email = request.POST.get("email")
         direccion = request.POST.get("direccion")
         tipo_pedido = request.POST.get("tipo_pedido")
+        zona = request.POST.get("zona")
         forma_pago = request.POST.get("forma_pago")
         aclaraciones = request.POST.get("aclaraciones")
 
@@ -462,7 +511,8 @@ def checkout_en(request):
             direccion=direccion,
             tipo_pedido=tipo_pedido,
             forma_pago=forma_pago,
-            total=0
+            total=0,
+            zona=zona
         )
 
         for comida_id, cantidad in carrito.items():
@@ -481,7 +531,12 @@ def checkout_en(request):
 
         # 🚚 SHIPPING
         if tipo_pedido == "delivery":
-            total += ENVIO
+
+            if not zona:
+                return HttpResponse("Please select your delivery zone")
+
+            if zona in ZONAS:
+                total += ZONAS[zona]
 
         pedido.total = total
         pedido.save()
@@ -496,7 +551,6 @@ def checkout_en(request):
 
     return render(request, "tienda/checkout_en.html", {
         "total": total,
-        "envio": ENVIO
     })
 def order_success_en(request):
     return render(request, "tienda/order_success_en.html")

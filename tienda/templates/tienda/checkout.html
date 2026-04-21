@@ -9,13 +9,11 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
-
 body{
 background:#1c1a18;
 color:white;
 font-family:Arial, Helvetica, sans-serif;
 }
-
 .checkout-box{
 max-width:600px;
 margin:auto;
@@ -24,45 +22,19 @@ padding:40px;
 border-radius:10px;
 box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
-
-label{
-margin-bottom:5px;
-}
-
-.form-control{
-border-radius:8px;
-}
-
+label{ margin-bottom:5px; }
+.form-control{ border-radius:8px; }
 .btn-warning{
 font-size:18px;
 padding:12px;
 font-weight:bold;
 }
-
 .resumen{
 background:#1f1a18;
 padding:15px;
 border-radius:8px;
 margin-bottom:20px;
 }
-
-@media (max-width:768px){
-
-.checkout-box{
-padding:25px;
-margin:10px;
-}
-
-h1{
-font-size:1.6rem;
-}
-
-h4{
-font-size:1.2rem;
-}
-
-}
-
 </style>
 
 </head>
@@ -70,28 +42,17 @@ font-size:1.2rem;
 <body>
 
 <div class="container py-5">
-
 <div class="checkout-box">
 
 <h1 class="mb-4 text-center">🛒 Finalizar compra</h1>
 
-<!-- 💰 RESUMEN -->
 <div class="resumen text-center">
-
 <p>Subtotal: $ {{ total }}</p>
-
-<p style="color:#cbb89d;">
-Envío: $ {{ envio }}
-</p>
-
-<h4>
-Total final: $ {{ total|add:envio }}
-</h4>
-
+<p style="color:#cbb89d;">Envío: $ <span id="envio_precio">0</span></p>
+<h4>Total final: $ <span id="total_final">{{ total }}</span></h4>
 </div>
 
 <form method="POST">
-
 {% csrf_token %}
 
 <div class="mb-3">
@@ -106,48 +67,61 @@ Total final: $ {{ total|add:envio }}
 
 <div class="mb-3">
 <label>📦 Tipo de pedido</label>
-
 <select name="tipo_pedido" class="form-control" id="tipo_pedido">
-
 <option value="delivery">🚚 Delivery</option>
 <option value="retiro">🏪 Retiro en el local</option>
+</select>
+</div>
+
+<div class="mb-3">
+<label>📍 Dirección</label>
+<input type="text" name="direccion" class="form-control">
+</div>
+
+<!-- 🔥 ZONA -->
+<div class="mb-3" id="zona_container">
+<label>📍 Zona de entrega</label>
+<select name="zona" id="zona" class="form-control">
+
+<option value="">Seleccionar zona</option>
+
+<option value="zona1">
+Zona 1 - $70  
+(Centro, Residenciales, Calles 1-2, Aduana)
+</option>
+
+<option value="zona2">
+Zona 2 - $100  
+(Selva, Regatta, Caribbean, Calles 3-6)
+</option>
+
+<option value="zona3">
+Zona 3 - $130  
+(Dreams, UNAM, Calles 7-10, Tren Maya)
+</option>
 
 </select>
 
+<p style="font-size:12px; color:#aaa;">
+La zona será verificada. El precio puede ajustarse si corresponde.
+</p>
 </div>
 
 <div class="mb-3">
-<label>📍 Dirección (solo para delivery)</label>
-<input type="text" name="direccion" class="form-control" id="direccion">
-</div>
-
-<div class="mb-3">
-
-<label>📝 Aclaraciones del pedido</label>
-
-<textarea
-name="aclaraciones"
-class="form-control"
-rows="3"
-placeholder="Ej: sin cebolla, extra picante, etc">
-</textarea>
-
+<label>📝 Aclaraciones</label>
+<textarea name="aclaraciones" class="form-control"></textarea>
 </div>
 
 <div class="mb-3">
 <label>💰 Forma de pago</label>
-
 <select name="forma_pago" class="form-control">
-
-<option value="efectivo">💵 Pagar en efectivo</option>
-<option value="mp">💳 Pagar online (Mercado Pago)</option>
-
+<option value="efectivo">💵 Efectivo</option>
+<option value="mp">💳 Mercado Pago</option>
 </select>
-
 </div>
 
 <div class="mb-3 text-center">
-  <div class="g-recaptcha" data-sitekey='6LfALq0sAAAAAJyt28Vq_CxGp6B8YKqEmJz9vIt6'></div>
+<div class="g-recaptcha" data-sitekey='6LfALq0sAAAAAJyt28Vq_CxGp6B8YKqEmJz9vIt6'></div>
 </div>
 
 <button type="submit" class="btn btn-warning w-100">
@@ -155,30 +129,44 @@ placeholder="Ej: sin cebolla, extra picante, etc">
 </button>
 
 </form>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-</div>
 
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+</div>
 </div>
 
 <script>
-
+let subtotal = {{ total }};
+const zonaSelect = document.getElementById("zona");
 const tipoPedido = document.getElementById("tipo_pedido");
-const direccion = document.getElementById("direccion");
+const zonaContainer = document.getElementById("zona_container");
 
-function validarDireccion(){
+const zonas = {
+zona1: 70,
+zona2: 100,
+zona3: 130
+};
 
-    if(tipoPedido.value === "delivery"){
-        direccion.required = true;
-    }else{
-        direccion.required = false;
-    }
-
+function actualizarTotal(){
+let envio = zonas[zonaSelect.value] || 0;
+document.getElementById("envio_precio").innerText = envio;
+document.getElementById("total_final").innerText = subtotal + envio;
 }
 
-tipoPedido.addEventListener("change", validarDireccion);
+function toggleZona(){
+if(tipoPedido.value === "delivery"){
+zonaContainer.style.display = "block";
+}else{
+zonaContainer.style.display = "none";
+zonaSelect.value = "";
+actualizarTotal();
+}
+}
 
-validarDireccion();
+zonaSelect.addEventListener("change", actualizarTotal);
+tipoPedido.addEventListener("change", toggleZona);
 
+toggleZona();
 </script>
 
 </body>
