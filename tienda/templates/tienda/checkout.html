@@ -86,22 +86,27 @@ margin-bottom:20px;
 <option value="">Seleccionar zona</option>
 
 <option value="zona1">
-Zona 1 - $70  
+Zona 1 - 0 
+(Hotel Areia Delivery, sin cargo)
+</option>
+
+<option value="zona2">
+Zona 2 - $70  
 (Col. Joaquin Zetina, Col. 23 de enero, Invasión, Villas Morelos 1, Villas La Playa, Puerto Madero, col.
 pescadores, Alborada, Palma Real, Palma Grand, Puerto Marino, El Faro, Quinta Maretta, puntarena.
 Zona urbana calle 1 y 2.
 Aduana y the fives.)
 </option>
 
-<option value="zona2">
-Zona 2 - $100  
+<option value="zona3">
+Zona 3 - $100  
 (Selva Escondida, regatta, punta vista, bucaneros.
 Caribbean reef, Cid, Ventus Ha, Desire, Pearl.
 Zona urbana calles 3, 4, 5 y 6)
 </option>
 
-<option value="zona3">
-Zona 3 - $130  
+<option value="zona4">
+Zona 4 - $130  
 (Dreams Jade, Grand Residences, UNAM.
 Zona urbana calles 7, 8, 9 y 10.
 Tren maya.)
@@ -149,9 +154,10 @@ const tipoPedido = document.getElementById("tipo_pedido");
 const zonaContainer = document.getElementById("zona_container");
 
 const zonas = {
-zona1: 70,
-zona2: 100,
-zona3: 130
+zona1: 0,
+zona2: 70,
+zona3: 100,
+zona4: 130
 };
 
 function actualizarTotal(){

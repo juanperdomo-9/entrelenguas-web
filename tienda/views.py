@@ -148,9 +148,10 @@ def sumar_del_carrito(request, comida_id):
 def checkout(request):
 
     ZONAS = {
-        "zona1": 70,
-        "zona2": 100,
-        "zona3": 130,
+        "zona1": 0,
+        "zona2": 70,
+        "zona3": 100,
+        "zona4": 130
     }
 
     carrito = request.session.get("carrito", {})
@@ -236,9 +237,10 @@ def checkout(request):
 def enviar_email_pedido(pedido):
 
     ZONAS = {
-        "zona1": 70,
-        "zona2": 100,
-        "zona3": 130,
+        "zona1": 0,
+        "zona2": 70,
+        "zona3": 100,
+        "zona4": 130
     }
 
     items = ItemPedido.objects.filter(pedido=pedido)
@@ -471,9 +473,10 @@ def cart_en(request):
 def checkout_en(request):
 
     ZONAS = {
-        "zona1": 70,
-        "zona2": 100,
-        "zona3": 130,
+        "zona1": 0,
+        "zona2": 70,
+        "zona3": 100,
+        "zona4": 130,
     }
     carrito = request.session.get("carrito", {})
 
