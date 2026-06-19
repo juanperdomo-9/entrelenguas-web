@@ -322,6 +322,19 @@ def crear_reserva(request):
         telefono = request.POST.get("telefono")
         personas = request.POST.get("personas")
         fecha = request.POST.get("fecha")
+        from datetime import datetime
+
+        fecha_obj = datetime.strptime(fecha, "%Y-%m-%d")
+
+        if fecha_obj.weekday() == 2:  # miércoles
+            from django.contrib import messages
+
+            messages.error(
+                request,
+                "Lo sentimos, el restaurante permanece cerrado los miércoles."
+            )
+
+            return redirect("/")
         hora = request.POST.get("hora")
         email_cliente = request.POST.get("email")
 
