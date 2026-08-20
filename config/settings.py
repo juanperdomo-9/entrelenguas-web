@@ -2,6 +2,7 @@ from pathlib import Path
 import os
 import cloudinary
 import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
 
 
 # Base directory
@@ -82,10 +83,21 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # DATABASE
+# ⚠️ La conexión sale SIEMPRE de la variable de entorno DATABASE_URL (Neon,
+# Render, la que sea). Nunca hardcodear el connection string acá de nuevo:
+# quedó expuesto en el historial de git la vez anterior.
+
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise ImproperlyConfigured(
+        "Falta la variable de entorno DATABASE_URL con el connection string "
+        "de la base de datos (Neon, Render, etc)."
+    )
 
 DATABASES = {
     "default": dj_database_url.parse(
-        "postgresql://portside:TfHeNzXr9TiyXlqdY2jNf48T3ozS2pAD@dpg-d6mfilp4tr6s738cus50-a.oregon-postgres.render.com/portdise",
+        DATABASE_URL,
         conn_max_age=600,
         ssl_require=True
     )
