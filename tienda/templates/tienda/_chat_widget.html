@@ -1,0 +1,207 @@
+{# Widget de chat IA para preguntas sobre ofertas / happy hour / horarios.
+   Incluir con el tag "include" de Django (ver README) antes de </body>.
+   Opcional: pasar chat_idioma="en" en el contexto de la vista para la UI en inglés.
+
+   ⚠️ ESTADO ACTUAL: modo "próximamente" — el botón abre el panel pero no hay
+   IA conectada todavía (se va a conectar con Groq). El backend real ya existe
+   en tienda/views.py -> chat_bot() y en tienda/urls.py -> 'chat_bot', armado
+   para Claude. Para activarlo:
+     1. Reemplazar la llamada a Claude en chat_bot() por el cliente de Groq.
+     2. Descomentar el <form> y el JS de fetch más abajo (quedaron comentados,
+        no borrados) y sacar el bloque ".chat-panel-proximamente". #}
+
+<style>
+
+.chat-float{
+position:fixed;
+bottom:95px;
+right:25px;
+background:#c46a2d;
+color:white;
+font-size:20px;
+width:52px;
+height:52px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+border:none;
+box-shadow:0 6px 12px rgba(0,0,0,0.35);
+z-index:9999;
+cursor:pointer;
+}
+
+.chat-panel{
+position:fixed;
+bottom:160px;
+right:25px;
+width:300px;
+max-width:90vw;
+background:#242020;
+border:1px solid #3a332c;
+border-radius:14px;
+box-shadow:0 10px 30px rgba(0,0,0,0.5);
+z-index:9999;
+display:none;
+flex-direction:column;
+overflow:hidden;
+font-family:'Playfair Display',serif;
+}
+
+.chat-panel.abierto{
+display:flex;
+}
+
+.chat-panel-header{
+background:#1c1a18;
+color:#c46a2d;
+padding:12px 16px;
+font-weight:700;
+letter-spacing:1px;
+border-bottom:1px solid #3a332c;
+}
+
+.chat-panel-proximamente{
+padding:20px 16px;
+text-align:center;
+color:#e8d8c3;
+}
+
+.chat-panel-proximamente .icono{
+font-size:2rem;
+margin-bottom:8px;
+}
+
+.chat-panel-proximamente p{
+font-size:0.9rem;
+color:#cbb89d;
+margin:0 0 16px;
+line-height:1.4;
+}
+
+.chat-panel-proximamente a{
+display:inline-block;
+background:#25D366;
+color:white;
+text-decoration:none;
+padding:8px 16px;
+border-radius:20px;
+font-size:0.9rem;
+font-weight:700;
+}
+
+</style>
+
+<button class="chat-float" id="chatToggle" type="button" aria-label="Chat">
+🤖
+</button>
+
+<div class="chat-panel" id="chatPanel">
+
+  <div class="chat-panel-header">
+    {% if chat_idioma == "en" %}Ask about our offers{% else %}Preguntá por nuestras ofertas{% endif %}
+  </div>
+
+  <div class="chat-panel-proximamente">
+    <div class="icono">🚧</div>
+    {% if chat_idioma == "en" %}
+      <p>Our AI assistant for happy hour &amp; offers is coming soon.<br>Meanwhile, ask us on WhatsApp!</p>
+      <a href="https://wa.me/529843158308" target="_blank">💬 WhatsApp</a>
+    {% else %}
+      <p>Muy pronto vas a poder preguntarle a nuestro asistente por el happy hour y las promos.<br>Mientras tanto, escribinos por WhatsApp.</p>
+      <a href="https://wa.me/529843158308" target="_blank">💬 WhatsApp</a>
+    {% endif %}
+  </div>
+
+  {% comment %} --- Chat real con IA (Groq), comentado hasta que lo conectemos ---
+
+  <div class="chat-panel-mensajes" id="chatMensajes">
+    <div class="chat-burbuja bot">
+      {% if chat_idioma == "en" %}Hi! Ask me about happy hour, hours, pickup or delivery 🍹
+      {% else %}¡Hola! Preguntame por el happy hour, horarios, pickup o delivery 🍹{% endif %}
+    </div>
+  </div>
+
+  <form class="chat-panel-form" id="chatForm">
+    {% csrf_token %}
+    <input type="text" id="chatInput" maxlength="500" autocomplete="off" required
+      placeholder="{% if chat_idioma == 'en' %}Type your question…{% else %}Escribí tu pregunta…{% endif %}">
+    <button type="submit">➤</button>
+  </form>
+
+  --- fin chat real --- {% endcomment %}
+
+</div>
+
+<script>
+(function(){
+
+  const toggle = document.getElementById('chatToggle');
+  const panel = document.getElementById('chatPanel');
+
+  toggle.addEventListener('click', function(){
+    panel.classList.toggle('abierto');
+  });
+
+  /* --- JS del chat real con IA, comentado hasta que conectemos Groq ---
+
+  const form = document.getElementById('chatForm');
+  const input = document.getElementById('chatInput');
+  const mensajes = document.getElementById('chatMensajes');
+
+  function getCookie(nombre){
+    const valor = document.cookie.split('; ').find(function(fila){
+      return fila.startsWith(nombre + '=');
+    });
+    return valor ? decodeURIComponent(valor.split('=')[1]) : null;
+  }
+
+  function agregarBurbuja(texto, tipo){
+    const burbuja = document.createElement('div');
+    burbuja.className = 'chat-burbuja ' + tipo;
+    burbuja.textContent = texto;
+    mensajes.appendChild(burbuja);
+    mensajes.scrollTop = mensajes.scrollHeight;
+    return burbuja;
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const texto = input.value.trim();
+    if(!texto) return;
+
+    agregarBurbuja(texto, 'usuario');
+    input.value = '';
+    input.disabled = true;
+
+    const burbujaEspera = agregarBurbuja('…', 'bot');
+
+    fetch("{% url 'chat_bot' %}", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken')
+      },
+      body: JSON.stringify({ mensaje: texto })
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      burbujaEspera.textContent = data.respuesta || data.error ||
+        "{% if chat_idioma == 'en' %}Something went wrong.{% else %}Algo salió mal.{% endif %}";
+    })
+    .catch(function(){
+      burbujaEspera.textContent =
+        "{% if chat_idioma == 'en' %}Connection error.{% else %}Error de conexión.{% endif %}";
+    })
+    .finally(function(){
+      input.disabled = false;
+      input.focus();
+      mensajes.scrollTop = mensajes.scrollHeight;
+    });
+  });
+
+  --- fin JS chat real --- */
+
+})();
+</script>

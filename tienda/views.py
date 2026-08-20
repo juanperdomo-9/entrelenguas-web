@@ -1,14 +1,43 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponse
+from django.views.decorators.http import require_POST
 from django.conf import settings
 from .models import Comida, Pedido, ItemPedido, Reserva
 import mercadopago
 import resend
 import requests
+import anthropic
+import json
 import os
 
 # CONFIGURAR RESEND
 resend.api_key = os.environ.get("RESEND_API_KEY")
+
+# ⚠️ EDITAR ACÁ las ofertas / happy hour del local.
+# Este texto es lo único que el bot conoce sobre promociones: si cambia el
+# happy hour o hay una promo nueva, se actualiza acá.
+INFO_OFERTAS = """
+- Happy Hour: todos los días de 17:00 a 19:00 hs. 2x1 en cócteles de la casa
+  y mezcales seleccionados.
+- Cerrado los miércoles (todo el día).
+- Pickup / retiro en el local disponible para comida y vinos (ver botón
+  "Order Online" en el menú del sitio).
+- Delivery disponible según zona (Puerto Morelos y alrededores).
+""".strip()
+
+CHAT_SYSTEM_PROMPT = """Sos el asistente virtual de Portside, un restaurante de \
+cocina internacional en Puerto Morelos, Quintana Roo. Respondé SOLO preguntas \
+sobre el menú, precios, horarios, promociones/happy hour, reservas, pickup y \
+delivery del restaurante, usando exclusivamente la información provista abajo. \
+Si te preguntan algo que no está en esa información (por ejemplo un plato \
+puntual del menú), respondé que no tenés ese dato y sugerí escribir por \
+WhatsApp o revisar el menú del sitio. Nunca inventes precios, horarios ni \
+promociones. Respondé en el mismo idioma en el que te escriben (español o \
+inglés), en 2-3 oraciones como máximo, con tono cálido y amable.
+
+Información del restaurante:
+{ofertas}
+"""
 
 
 def enviar_correo(destino, asunto, mensaje):
@@ -41,6 +70,63 @@ def home_en(request):
     return render(request, "tienda/home_en.html", {
         "cantidad_carrito": cantidad_carrito
     })
+
+@require_POST
+def chat_bot(request):
+    """Responde preguntas de clientes sobre ofertas/happy hour/horarios."""
+
+    try:
+        data = json.loads(request.body)
+    except (json.JSONDecodeError, TypeError):
+        return JsonResponse({"error": "Solicitud inválida."}, status=400)
+
+    mensaje = (data.get("mensaje") or "").strip()
+
+    if not mensaje:
+        return JsonResponse({"error": "Escribí una pregunta."}, status=400)
+
+    if len(mensaje) > 500:
+        return JsonResponse({"error": "Mensaje demasiado largo."}, status=400)
+
+    # Límite simple por sesión para evitar abuso del costo de la API.
+    usados = request.session.get("chat_bot_usos", 0)
+
+    if usados >= 30:
+        return JsonResponse({
+            "respuesta": "Por hoy llegamos al límite de preguntas por acá 🙏 "
+                         "Escribinos por WhatsApp y te ayudamos."
+        })
+
+    if not os.environ.get("ANTHROPIC_API_KEY"):
+        return JsonResponse({
+            "respuesta": "El asistente todavía no está activado. "
+                         "Escribinos por WhatsApp mientras tanto 💬"
+        })
+
+    try:
+        respuesta = anthropic.Anthropic().messages.create(
+            model="claude-opus-5",
+            max_tokens=300,
+            output_config={"effort": "low"},
+            system=CHAT_SYSTEM_PROMPT.format(ofertas=INFO_OFERTAS),
+            messages=[{"role": "user", "content": mensaje}],
+        )
+        texto = next(
+            (b.text for b in respuesta.content if b.type == "text"),
+            "No tengo esa información. Escribinos por WhatsApp."
+        )
+
+    except anthropic.RateLimitError:
+        texto = "Estamos con mucha demanda ahora mismo, probá de nuevo en un rato."
+    except anthropic.APIStatusError:
+        texto = "Tuvimos un problema para responder. Escribinos por WhatsApp."
+    except anthropic.APIConnectionError:
+        texto = "No pudimos conectar con el asistente. Escribinos por WhatsApp."
+
+    request.session["chat_bot_usos"] = usados + 1
+
+    return JsonResponse({"respuesta": texto})
+
 
 def pickup_comida(request):
 

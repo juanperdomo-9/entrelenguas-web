@@ -25,5 +25,6 @@ urlpatterns = [
     path("en/checkout/", views.checkout_en, name="checkout_en"),
     path("en/cart/", views.cart_en, name="cart_en"),
     path("en/order-success/", views.order_success_en, name="order_success_en"),
+    path("chat/", views.chat_bot, name="chat_bot"),
 ]
 

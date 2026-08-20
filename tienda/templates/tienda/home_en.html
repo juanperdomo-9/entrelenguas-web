@@ -397,5 +397,10 @@ fechaInput.addEventListener('change', function(){
 });
 
 </script>
+
+{% with chat_idioma="en" %}
+{% include "tienda/_chat_widget.html" %}
+{% endwith %}
+
 </body>
 </html>
