@@ -25,19 +25,27 @@ INFO_OFERTAS = """
 - Delivery disponible según zona (Puerto Morelos y alrededores).
 """.strip()
 
-CHAT_SYSTEM_PROMPT = """Sos el asistente virtual de Portside, un restaurante de \
-cocina internacional en Puerto Morelos, Quintana Roo. Respondé SOLO preguntas \
-sobre el menú, precios, horarios, promociones/happy hour, reservas, pickup y \
-delivery del restaurante, usando exclusivamente la información provista abajo. \
-Si te preguntan algo que no está en esa información (por ejemplo un plato \
-puntual del menú), respondé que no tenés ese dato y sugerí escribir por \
-WhatsApp o revisar el menú del sitio. Nunca inventes precios, horarios ni \
-promociones. Respondé en el mismo idioma en el que te escriben (español o \
-inglés), en 2-3 oraciones como máximo, con tono cálido y amable.
+# El idioma de respuesta lo define la página donde está el widget (ES u EN),
+# NO el idioma en el que escribe la persona — así el bot de la página en
+# inglés siempre contesta en inglés aunque le escriban en español, y viceversa.
+CHAT_SYSTEM_PROMPT = """You are the virtual assistant for Portside, an \
+international-cuisine restaurant in Puerto Morelos, Quintana Roo, Mexico. \
+Answer ONLY questions about the menu, prices, hours, promotions/happy hour, \
+reservations, pickup and delivery, using exclusively the information provided \
+below. If asked something not covered there (e.g. a specific dish), say you \
+don't have that info and suggest WhatsApp or the site's menu. Never invent \
+prices, hours or promotions. Regardless of the language the visitor writes \
+in, ALWAYS answer in {idioma_nombre} — this is a hard requirement, not a \
+preference. Keep answers to 2-3 sentences max, warm and friendly tone.
 
-Información del restaurante:
+Restaurant info:
 {ofertas}
 """
+
+IDIOMAS = {
+    "es": "Spanish",
+    "en": "English",
+}
 
 
 def enviar_correo(destino, asunto, mensaje):
@@ -71,57 +79,92 @@ def home_en(request):
         "cantidad_carrito": cantidad_carrito
     })
 
+# Textos fijos por idioma de página (ES = home '/', EN = home '/en').
+TEXTOS_CHAT = {
+    "es": {
+        "solicitud_invalida": "Solicitud inválida.",
+        "sin_mensaje": "Escribí una pregunta.",
+        "muy_largo": "Mensaje demasiado largo.",
+        "limite": "Por hoy llegamos al límite de preguntas por acá 🙏 "
+                  "Escribinos por WhatsApp y te ayudamos.",
+        "no_activado": "El asistente todavía no está activado. "
+                       "Escribinos por WhatsApp mientras tanto 💬",
+        "sin_dato": "No tengo esa información. Escribinos por WhatsApp.",
+        "rate_limit": "Estamos con mucha demanda ahora mismo, probá de nuevo en un rato.",
+        "error_api": "Tuvimos un problema para responder. Escribinos por WhatsApp.",
+        "error_conexion": "No pudimos conectar con el asistente. Escribinos por WhatsApp.",
+    },
+    "en": {
+        "solicitud_invalida": "Invalid request.",
+        "sin_mensaje": "Type a question.",
+        "muy_largo": "Message is too long.",
+        "limite": "We hit today's question limit here 🙏 "
+                  "Message us on WhatsApp and we'll help you out.",
+        "no_activado": "The assistant isn't active yet. "
+                       "Message us on WhatsApp in the meantime 💬",
+        "sin_dato": "I don't have that info. Message us on WhatsApp.",
+        "rate_limit": "We're getting a lot of questions right now, try again shortly.",
+        "error_api": "We had trouble answering. Message us on WhatsApp.",
+        "error_conexion": "Couldn't reach the assistant. Message us on WhatsApp.",
+    },
+}
+
+
 @require_POST
 def chat_bot(request):
-    """Responde preguntas de clientes sobre ofertas/happy hour/horarios."""
+    """Responde preguntas de clientes sobre ofertas/happy hour/horarios.
+
+    El idioma de respuesta lo decide la página que llama (parámetro
+    "idioma": "es" | "en" en el body), no el idioma del mensaje.
+    """
 
     try:
         data = json.loads(request.body)
     except (json.JSONDecodeError, TypeError):
         return JsonResponse({"error": "Solicitud inválida."}, status=400)
 
+    idioma = data.get("idioma") if data.get("idioma") in IDIOMAS else "es"
+    textos = TEXTOS_CHAT[idioma]
+
     mensaje = (data.get("mensaje") or "").strip()
 
     if not mensaje:
-        return JsonResponse({"error": "Escribí una pregunta."}, status=400)
+        return JsonResponse({"error": textos["sin_mensaje"]}, status=400)
 
     if len(mensaje) > 500:
-        return JsonResponse({"error": "Mensaje demasiado largo."}, status=400)
+        return JsonResponse({"error": textos["muy_largo"]}, status=400)
 
     # Límite simple por sesión para evitar abuso del costo de la API.
     usados = request.session.get("chat_bot_usos", 0)
 
     if usados >= 30:
-        return JsonResponse({
-            "respuesta": "Por hoy llegamos al límite de preguntas por acá 🙏 "
-                         "Escribinos por WhatsApp y te ayudamos."
-        })
+        return JsonResponse({"respuesta": textos["limite"]})
 
     if not os.environ.get("ANTHROPIC_API_KEY"):
-        return JsonResponse({
-            "respuesta": "El asistente todavía no está activado. "
-                         "Escribinos por WhatsApp mientras tanto 💬"
-        })
+        return JsonResponse({"respuesta": textos["no_activado"]})
 
     try:
         respuesta = anthropic.Anthropic().messages.create(
             model="claude-opus-5",
             max_tokens=300,
             output_config={"effort": "low"},
-            system=CHAT_SYSTEM_PROMPT.format(ofertas=INFO_OFERTAS),
+            system=CHAT_SYSTEM_PROMPT.format(
+                idioma_nombre=IDIOMAS[idioma],
+                ofertas=INFO_OFERTAS,
+            ),
             messages=[{"role": "user", "content": mensaje}],
         )
         texto = next(
             (b.text for b in respuesta.content if b.type == "text"),
-            "No tengo esa información. Escribinos por WhatsApp."
+            textos["sin_dato"]
         )
 
     except anthropic.RateLimitError:
-        texto = "Estamos con mucha demanda ahora mismo, probá de nuevo en un rato."
+        texto = textos["rate_limit"]
     except anthropic.APIStatusError:
-        texto = "Tuvimos un problema para responder. Escribinos por WhatsApp."
+        texto = textos["error_api"]
     except anthropic.APIConnectionError:
-        texto = "No pudimos conectar con el asistente. Escribinos por WhatsApp."
+        texto = textos["error_conexion"]
 
     request.session["chat_bot_usos"] = usados + 1
 

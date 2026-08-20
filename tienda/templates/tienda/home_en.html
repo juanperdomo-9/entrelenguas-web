@@ -70,6 +70,51 @@ letter-spacing:3px;
 margin-bottom:50px;
 }
 
+.icon{
+width:16px;
+height:16px;
+vertical-align:-2px;
+margin-right:6px;
+}
+
+.btn-outline-mezcal{
+background:transparent;
+color:#e8d8c3;
+border:1px solid #c46a2d;
+border-radius:20px;
+padding:6px 14px;
+font-size:14px;
+text-decoration:none;
+display:inline-block;
+transition:0.3s;
+}
+
+.btn-outline-mezcal:hover{
+background:#c46a2d;
+color:white;
+transform:translateY(-2px);
+}
+
+.hero-cta{
+margin-top:28px;
+display:flex;
+gap:12px;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.hero-cta .btn-mezcal,
+.hero-cta .btn-outline-mezcal{
+padding:10px 22px;
+font-size:15px;
+}
+
+.seccion-alt{
+background:#211d1a;
+border-top:1px solid #2c2620;
+border-bottom:1px solid #2c2620;
+}
+
 footer{
 background-color:#111;
 padding:40px;
@@ -170,27 +215,27 @@ font-size:1rem;
 <div class="ms-auto">
 
 <a href="https://drive.google.com/file/d/12gw1WE7boidTD3wIRLO3R2IlW9Zr7w_m/view?usp=drivesdk" class="btn btn-mezcal me-2 mb-2">
-🍽 Our Menu
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><line x1="8" y1="8" x2="16" y2="8"></line><line x1="8" y1="12" x2="16" y2="12"></line><line x1="8" y1="16" x2="13" y2="16"></line></svg>Our Menu
 </a>
 
 <a href="#social" class="btn btn-mezcal me-2 mb-2">
-💬 Social
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>Social
 </a>
 
 <a href="#reservation" class="btn btn-mezcal me-2 mb-2">
-📅 Book Table
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>Book Table
 </a>
 
 <a href="/en/pickup-food" class="btn btn-mezcal me-2 mb-2">
-🥡 Order Online
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>Order Online
 </a>
 
 <a href="/en/pickup-wine" class="btn btn-mezcal me-2 mb-2">
-🍷 Wine
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22h8"></path><path d="M7 10h10"></path><path d="M12 15v7"></path><path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"></path></svg>Wine
 </a>
 
 <a href="/" class="btn btn-mezcal mb-2">
-🇪🇸 Español
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z"></path></svg>Español
 </a>
 
 </div>
@@ -204,6 +249,15 @@ font-size:1rem;
 
 <h1 class="hero-title">PORTSIDE</h1>
 <p class="hero-subtitle">Puerto Morelos, Quintana Roo</p>
+
+<div class="hero-cta">
+<a href="#reservation" class="btn btn-mezcal">
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>Book a Table
+</a>
+<a href="https://drive.google.com/file/d/12gw1WE7boidTD3wIRLO3R2IlW9Zr7w_m/view?usp=drivesdk" class="btn btn-outline-mezcal" target="_blank">
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><line x1="8" y1="8" x2="16" y2="8"></line><line x1="8" y1="12" x2="16" y2="12"></line><line x1="8" y1="16" x2="13" y2="16"></line></svg>View Menu
+</a>
+</div>
 
 </div>
 </section>
@@ -256,10 +310,11 @@ font-size:1rem;
 </div>
 </section>
 
-<section id="reservation" class="container py-5">
+<section id="reservation" class="seccion-alt">
+<div class="container py-5">
 
 <div class="text-center">
-<h2 class="section-title">📅 BOOK A TABLE</h2>
+<h2 class="section-title"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>BOOK A TABLE</h2>
 <p style="color:#cbb89d">Reserve your table in seconds</p>
 </div>
 
@@ -320,6 +375,7 @@ Book Table
 
 </div>
 
+</div>
 </section>
 
 <section class="container-fluid py-5">
@@ -347,18 +403,20 @@ loading="lazy">
 
 </section>
 
-<section id="social" class="container text-center pb-5">
+<section id="social" class="seccion-alt">
+<div class="container text-center py-5">
 
 <h2 class="section-title">OUR SOCIAL MEDIA</h2>
 
 <a href="https://www.instagram.com/portsidepm" target="_blank" class="btn btn-mezcal m-2">
-📷 Instagram
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg>Instagram
 </a>
 
 <a href="https://www.facebook.com" target="_blank" class="btn btn-mezcal m-2">
-📘 Facebook
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h-2a5 5 0 0 0-5 5v3H6v4h2v6h4v-6h3l1-4h-4V8a1 1 0 0 1 1-1h3Z"></path></svg>Facebook
 </a>
 
+</div>
 </section>
 
 <footer>

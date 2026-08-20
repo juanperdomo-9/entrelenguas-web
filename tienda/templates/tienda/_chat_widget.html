@@ -183,7 +183,10 @@ font-weight:700;
         'Content-Type': 'application/json',
         'X-CSRFToken': getCookie('csrftoken')
       },
-      body: JSON.stringify({ mensaje: texto })
+      body: JSON.stringify({
+        mensaje: texto,
+        idioma: "{{ chat_idioma|default:'es' }}"  /* fija el idioma de respuesta según la página */
+      })
     })
     .then(function(r){ return r.json(); })
     .then(function(data){
