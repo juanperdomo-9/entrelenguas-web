@@ -1,14 +1,16 @@
-{# Widget de chat IA para preguntas sobre ofertas / happy hour / horarios.
-   Incluir con el tag "include" de Django (ver README) antes de </body>.
-   Opcional: pasar chat_idioma="en" en el contexto de la vista para la UI en inglés.
+{% comment %}
+Widget de chat IA para preguntas sobre ofertas / happy hour / horarios.
+Incluir con el tag "include" de Django (ver README) antes de </body>.
+Opcional: pasar chat_idioma="en" en el contexto de la vista para la UI en inglés.
 
-   ⚠️ ESTADO ACTUAL: modo "próximamente" — el botón abre el panel pero no hay
-   IA conectada todavía (se va a conectar con Groq). El backend real ya existe
-   en tienda/views.py -> chat_bot() y en tienda/urls.py -> 'chat_bot', armado
-   para Claude. Para activarlo:
-     1. Reemplazar la llamada a Claude en chat_bot() por el cliente de Groq.
-     2. Descomentar el <form> y el JS de fetch más abajo (quedaron comentados,
-        no borrados) y sacar el bloque ".chat-panel-proximamente". #}
+⚠️ ESTADO ACTUAL: modo "próximamente" — el botón abre el panel pero no hay
+IA conectada todavía (se va a conectar con Groq). El backend real ya existe
+en tienda/views.py -> chat_bot() y en tienda/urls.py -> 'chat_bot', armado
+para Claude. Para activarlo:
+  1. Reemplazar la llamada a Claude en chat_bot() por el cliente de Groq.
+  2. Descomentar el <form> y el JS de fetch más abajo (quedaron comentados,
+     no borrados) y sacar el bloque ".chat-panel-proximamente".
+{% endcomment %}
 
 <style>
 
