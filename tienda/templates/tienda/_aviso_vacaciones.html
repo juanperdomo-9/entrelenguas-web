@@ -1,0 +1,40 @@
+{% comment %}
+Aviso de cierre por vacaciones. Las fechas salen de tienda/vacaciones.py.
+Se muestra solo mientras vacaciones_aviso sea True (desde ya hasta el último
+día de vacaciones). En páginas en inglés pasar aviso_idioma="en".
+{% endcomment %}
+{% if vacaciones_aviso %}
+
+<style>
+.aviso-vacaciones{
+background:#8c2f1b;
+color:#fff;
+border:1px solid #c46a2d;
+border-radius:12px;
+padding:14px 18px;
+max-width:640px;
+margin:0 auto 28px;
+text-align:center;
+font-size:0.95rem;
+line-height:1.45;
+}
+.aviso-vacaciones strong{
+display:block;
+letter-spacing:2px;
+margin-bottom:4px;
+}
+</style>
+
+<div class="aviso-vacaciones" role="status">
+{% if aviso_idioma == "en" %}
+<strong>CLOSED FOR VACATION</strong>
+From {{ vacaciones_desde|date:"M j" }} to {{ vacaciones_hasta|date:"M j" }} we're not taking online orders or reservations.
+We're back on {{ vacaciones_vuelta|date:"M j" }}!
+{% else %}
+<strong>CERRADO POR VACACIONES</strong>
+Del {{ vacaciones_desde|date:"d/m" }} al {{ vacaciones_hasta|date:"d/m" }} no tomamos pedidos online ni reservas.
+¡Volvemos el {{ vacaciones_vuelta|date:"d/m" }}!
+{% endif %}
+</div>
+
+{% endif %}

@@ -249,6 +249,10 @@ font-size:1rem;
 <section class="hero">
 <div class="container">
 
+{% with aviso_idioma="en" %}
+{% include "tienda/_aviso_vacaciones.html" %}
+{% endwith %}
+
 <h1 class="hero-title">PORTSIDE</h1>
 <p class="hero-subtitle">Puerto Morelos, Quintana Roo</p>
 
@@ -355,6 +359,17 @@ margin-top:10px;
 ⚠️ Sorry, the restaurant is closed on Wednesdays.
 </p>
 
+<p id="mensaje_vacaciones" style="
+display:none;
+background:#842029;
+color:white;
+padding:10px;
+border-radius:8px;
+margin-top:10px;
+">
+⚠️ Closed for vacation from {{ vacaciones_desde|date:"M j" }} to {{ vacaciones_hasta|date:"M j" }}. Please pick another date.
+</p>
+
 <div class="mb-3">
 <input type="time" name="hora" class="form-control" required>
 </div>
@@ -367,7 +382,7 @@ margin-top:10px;
   <div class="g-recaptcha" data-sitekey='6LfALq0sAAAAAJyt28Vq_CxGp6B8YKqEmJz9vIt6'></div>
 </div>
 
-<button class="btn btn-mezcal w-100">
+<button type="submit" class="btn btn-mezcal w-100">
 Book Table
 </button>
 
@@ -430,7 +445,11 @@ loading="lazy">
 
 const fechaInput = document.getElementById('fecha_reserva');
 const mensaje = document.getElementById('mensaje_miercoles');
-const boton = document.querySelector('button[type="submit"]');
+const mensajeVacaciones = document.getElementById('mensaje_vacaciones');
+const boton = document.querySelector('#reservation button[type="submit"]');
+
+const vacacionesDesde = "{{ vacaciones_desde|date:'Y-m-d' }}";
+const vacacionesHasta = "{{ vacaciones_hasta|date:'Y-m-d' }}";
 
 fechaInput.addEventListener('change', function(){
 
@@ -438,21 +457,14 @@ fechaInput.addEventListener('change', function(){
 
     if(!fecha) return;
 
-    const dia = new Date(fecha + "T00:00:00").getDay();
-
     // Wednesday = 3
+    const dia = new Date(fecha + "T00:00:00").getDay();
+    const esMiercoles = dia === 3;
+    const esVacaciones = fecha >= vacacionesDesde && fecha <= vacacionesHasta;
 
-    if(dia === 3){
-
-        mensaje.style.display = "block";
-        boton.disabled = true;
-
-    }else{
-
-        mensaje.style.display = "none";
-        boton.disabled = false;
-
-    }
+    mensaje.style.display = esMiercoles ? "block" : "none";
+    mensajeVacaciones.style.display = esVacaciones ? "block" : "none";
+    boton.disabled = esMiercoles || esVacaciones;
 
 });
 

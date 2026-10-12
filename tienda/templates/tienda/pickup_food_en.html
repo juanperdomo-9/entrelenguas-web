@@ -137,6 +137,10 @@ z-index:9999;
 <h2 class="section-title">PICK UP MENU</h2>
 </div>
 
+{% with aviso_idioma="en" %}
+{% include "tienda/_aviso_vacaciones.html" %}
+{% endwith %}
+
 <div class="row">
 
 {% for comida in comidas %}
@@ -157,11 +161,17 @@ z-index:9999;
 
 <p class="precio">$ {{ comida.precio }}</p>
 
+{% if pedidos_cerrados %}
+<button class="btn btn-mezcal w-100 mt-3" disabled>
+Closed for vacation
+</button>
+{% else %}
 <button
 class="btn btn-mezcal w-100 mt-3 agregar-carrito"
 data-id="{{ comida.id }}">
 Add to order
 </button>
+{% endif %}
 
 </div>
 </div>

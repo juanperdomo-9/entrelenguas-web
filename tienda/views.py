@@ -3,6 +3,9 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_POST
 from django.conf import settings
 from .models import Comida, Pedido, ItemPedido, Reserva
+from .vacaciones import (
+    VACACIONES_DESDE, VACACIONES_HASTA, fecha_en_vacaciones, pedidos_cerrados
+)
 import mercadopago
 import resend
 import requests
@@ -200,6 +203,12 @@ def pickup_vinos(request):
 def agregar_al_carrito(request, comida_id):
     carrito = request.session.get('carrito', {})
 
+    if pedidos_cerrados():
+        return JsonResponse({
+            "error": "Cerrado por vacaciones.",
+            "cantidad_carrito": sum(carrito.values())
+        }, status=403)
+
     if str(comida_id) in carrito:
         carrito[str(comida_id)] += 1
     else:
@@ -282,6 +291,12 @@ def checkout(request):
         "zona3": 100,
         "zona4": 130
     }
+
+    if pedidos_cerrados():
+        return HttpResponse(
+            "Lo sentimos, no estamos tomando pedidos: cerrado por vacaciones "
+            f"del {VACACIONES_DESDE:%d/%m} al {VACACIONES_HASTA:%d/%m}."
+        )
 
     carrito = request.session.get("carrito", {})
 
@@ -458,6 +473,13 @@ def crear_reserva(request):
             return HttpResponse(
                 "Lo sentimos, el restaurante permanece cerrado los miércoles."
             )
+        if fecha_en_vacaciones(fecha_obj.date()):
+            return HttpResponse(
+                "Lo sentimos, el restaurante permanece cerrado por vacaciones "
+                f"del {VACACIONES_DESDE:%d/%m} al {VACACIONES_HASTA:%d/%m}. "
+                f"/ Sorry, we're closed for vacation from "
+                f"{VACACIONES_DESDE:%b %d} to {VACACIONES_HASTA:%b %d}."
+            )
         hora = request.POST.get("hora")
         email_cliente = request.POST.get("email")
 
@@ -614,6 +636,13 @@ def checkout_en(request):
         "zona3": 100,
         "zona4": 130,
     }
+
+    if pedidos_cerrados():
+        return HttpResponse(
+            "Sorry, we're not taking orders: closed for vacation from "
+            f"{VACACIONES_DESDE:%b %d} to {VACACIONES_HASTA:%b %d}."
+        )
+
     carrito = request.session.get("carrito", {})
 
     if not carrito:

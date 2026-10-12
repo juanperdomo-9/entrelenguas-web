@@ -102,6 +102,10 @@ border-radius:6px;
 🛒 Your Order
 </h1>
 
+{% with aviso_idioma="en" %}
+{% include "tienda/_aviso_vacaciones.html" %}
+{% endwith %}
+
 {% if comidas %}
 
 <div class="table-responsive">
@@ -193,9 +197,15 @@ Total: $ {{ total }}
 Continue shopping
 </a>
 
+{% if pedidos_cerrados %}
+<button class="btn btn-mezcal" disabled>
+Closed for vacation
+</button>
+{% else %}
 <a href="/en/checkout/" class="btn btn-mezcal">
 Checkout
 </a>
+{% endif %}
 
 </div>
 

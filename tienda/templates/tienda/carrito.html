@@ -99,8 +99,10 @@ border-radius:6px;
 <div class="container container-carrito py-5">
 
 <h1 class="titulo text-center">
-🛒 Tu Pedido 
+🛒 Tu Pedido
 </h1>
+
+{% include "tienda/_aviso_vacaciones.html" %}
 
 {% if comidas %}
 
@@ -192,9 +194,15 @@ Total: $ {{ total }}
 Seguir comprando
 </a>
 
+{% if pedidos_cerrados %}
+<button class="btn btn-mezcal" disabled>
+Cerrado por vacaciones
+</button>
+{% else %}
 <a href="{% url 'checkout' %}" class="btn btn-mezcal">
 Finalizar compra
 </a>
+{% endif %}
 
 </div>
 
